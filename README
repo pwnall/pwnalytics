@@ -1,0 +1,6 @@
+Pwnalytics is an open-source Web analytics solution. This project contains the
+Rails-based backend that collects and displays analytics data.
+
+INSTALL
+
+Use the standard Bundler-based process for setting up a Rails 3 application.
