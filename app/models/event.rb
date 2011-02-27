@@ -8,10 +8,10 @@ class Event < ActiveRecord::Base
   validate :web_property_matches_visitor
   # The page on which the event occurred.
   belongs_to :page, :class_name => 'WebPage'
-  validate :page, :presence => true
+  validates :page, :presence => true
   # The referrer of the page on which the event occurred.
   belongs_to :referrer, :class_name => 'WebPage'
-  validate :referrer, :presence => true
+  validates :referrer, :presence => true
   
   # The browser-side timestamp (UNIX time, in milliseconds) for the event.
   validates :browser_time, :presence => true, 
@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   # Virtual attribute that unrolls the JSON data.
   def data=(new_data)
     @data = nil
-    self.data_json = ActiveSupport::JSON.encode(new_data)
+    self.data_json = new_data && ActiveSupport::JSON.encode(new_data)
   end
   def data
     @data ||= ActiveSupport::JSON.decode(data_json).freeze
@@ -41,15 +41,10 @@ class Event < ActiveRecord::Base
     Event.create :visitor => visitor, :browser_time => browser_time,
                  :data => params
   end
-  
-  # :nodoc: fills out web_property_id automatically.
-  def visitor=(new_visitor)
-    super
-    self.web_property_id = new_visitor.web_property_id
-  end
 
   # Checks that the web property is denormalized correctly.
   def web_property_matches_visitor
+    return unless visitor
     unless web_property_id == visitor.web_property_id
       errors.add :web_property_id, 'is inconsistent with visitor'
     end

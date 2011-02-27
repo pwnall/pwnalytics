@@ -1,0 +1,7 @@
+test_load:
+  visitor: pwnall
+  web_property: js_test
+  page: test_page_alias
+  referrer: test_page
+  browser_time: 1234
+  data_json: <%= {}.to_json.inspect %>

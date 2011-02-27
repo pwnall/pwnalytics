@@ -11,6 +11,8 @@ class CreateEvents < ActiveRecord::Migration
     end
     add_index :events, [:visitor_id, :browser_time], :null => false,
                                                      :unique => false
+    add_index :events, [:web_property_id, :page_id, :browser_time],
+                       :null => false, :unique => false
   end
 
   def self.down
