@@ -1,0 +1,9 @@
+test_page:
+  web_property: js_test
+  web_property_uid: AA123456
+  url: "http://localhost:8888/"
+
+test_page_alias:
+  web_property: js_test
+  web_property_uid: AA123456
+  url: "http://localhost:8888/?"

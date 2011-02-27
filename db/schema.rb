@@ -10,15 +10,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110227014510) do
+ActiveRecord::Schema.define(:version => 20110227063058) do
 
   create_table "events", :force => true do |t|
-    t.integer  "web_property_id"
-    t.integer  "browser_time"
-    t.text     "data"
+    t.integer  "web_property_id",              :null => false
+    t.integer  "visitor_id",                   :null => false
+    t.integer  "page_id",                      :null => false
+    t.integer  "referrer_id",                  :null => false
+    t.integer  "browser_time",    :limit => 8, :null => false
+    t.text     "data_json",                    :null => false
     t.datetime "created_at"
-    t.datetime "updated_at"
   end
+
+  add_index "events", ["visitor_id", "browser_time"], :name => "index_events_on_visitor_id_and_browser_time"
+
+  create_table "web_pages", :force => true do |t|
+    t.integer "web_property_id",                 :null => false
+    t.string  "web_property_uid",                :null => false
+    t.string  "url",              :limit => 148, :null => false
+  end
+
+  add_index "web_pages", ["web_property_id", "url"], :name => "index_web_pages_on_web_property_id_and_url", :unique => true
+  add_index "web_pages", ["web_property_uid", "url"], :name => "index_web_pages_on_web_property_uid_and_url", :unique => true
 
   create_table "web_properties", :force => true do |t|
     t.string "uid",  :null => false
@@ -26,5 +39,14 @@ ActiveRecord::Schema.define(:version => 20110227014510) do
   end
 
   add_index "web_properties", ["uid"], :name => "index_web_properties_on_uid", :unique => true
+
+  create_table "web_visitors", :force => true do |t|
+    t.integer "web_property_id",  :null => false
+    t.string  "web_property_uid", :null => false
+    t.string  "uid",              :null => false
+  end
+
+  add_index "web_visitors", ["web_property_id", "uid"], :name => "index_web_visitors_on_web_property_id_and_uid", :unique => true
+  add_index "web_visitors", ["web_property_uid", "uid"], :name => "index_web_visitors_on_web_property_uid_and_uid", :unique => true
 
 end

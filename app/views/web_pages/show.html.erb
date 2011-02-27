@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Web property:</b>
+  <%= @web_page.web_property_id %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @web_page.url %>
+</p>
+
+
+<%= link_to 'Edit', edit_web_page_path(@web_page) %> |
+<%= link_to 'Back', web_pages_path %>

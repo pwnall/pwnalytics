@@ -1,12 +1,16 @@
 class CreateEvents < ActiveRecord::Migration
   def self.up
     create_table :events do |t|
-      t.integer :web_property_id
-      t.integer :browser_time
-      t.text :data
-
-      t.timestamps
+      t.integer :web_property_id, :null => false
+      t.integer :visitor_id, :null => false
+      t.integer :page_id, :null => false
+      t.integer :referrer_id, :null => false
+      t.integer :browser_time, :limit => 8, :null => false
+      t.text :data_json, :limit => 4.kilobytes, :null => false
+      t.datetime :created_at
     end
+    add_index :events, [:visitor_id, :browser_time], :null => false,
+                                                     :unique => false
   end
 
   def self.down

@@ -1,4 +1,8 @@
 Pwnalytics::Application.routes.draw do
+  resources :web_pages
+
+  resources :web_visitors
+
   resources :web_properties
   resources :events, :only => [:index, :show]
   get 'p.gif' => 'events#create', :format => 'gif', :as => :create_event
