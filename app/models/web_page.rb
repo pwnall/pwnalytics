@@ -13,6 +13,7 @@ class WebPage < ActiveRecord::Base
 
   # Creates or retrieves a WebPage matching the arguments.
   def self.for(property_uid, url)
+    url = 'null' if url.blank?
     page = WebPage.where(:web_property_uid => property_uid, :url => url).first
     return page if page
     

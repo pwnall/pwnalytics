@@ -1,4 +1,7 @@
 class EventsController < ApplicationController
+  # Don't spam indirect users with cookies.
+  session :off, :only => [:new, :create]
+  
   # GET /events
   # GET /events.json
   def index
@@ -23,26 +26,13 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    respond_to do |format|
-      format.js do
-        render :text => PwnalyticsJS::PwnalyticsJS.main_js(create_event_url)
-      end
-    end
+    render :text => PwnalyticsJS::PwnalyticsJS.main_js(create_event_url)
   end
 
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(params[:event])
-
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
-        format.json { render :json => @event, :status => :created, :location => @event }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @event.errors, :status => :unprocessable_entity }
-      end
-    end
+    @event = Event.create_from_params params
+    render :text => PwnalyticsJS::PwnalyticsJS.gif_contents
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110227063058) do
+ActiveRecord::Schema.define(:version => 20110227091841) do
 
   create_table "events", :force => true do |t|
     t.integer  "web_property_id",              :null => false
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20110227063058) do
   end
 
   add_index "events", ["visitor_id", "browser_time"], :name => "index_events_on_visitor_id_and_browser_time"
+  add_index "events", ["web_property_id", "page_id", "browser_time"], :name => "index_events_on_web_property_id_and_page_id_and_browser_time"
 
   create_table "web_pages", :force => true do |t|
     t.integer "web_property_id",                 :null => false

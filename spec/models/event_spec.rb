@@ -58,9 +58,10 @@ describe Event do
     let(:null_page) { web_pages :null_page }
     let(:params) do
       {
-        '__pid' => js_test.uid, '__vid' => pwnall.uid,
+        '__pid' => js_test.uid, '__uid' => pwnall.uid,
         '__url' => test_page.url, '__ref' => null_page.url,
-        '__time' => event.browser_time
+        '__time' => event.browser_time,
+        'controller' => 'event', 'action' => 'create', 'format' => 'gif'
       }.merge event.data
     end
     before do

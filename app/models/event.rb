@@ -33,11 +33,14 @@ class Event < ActiveRecord::Base
     params = request_params.clone
     
     property_uid = params.delete('__pid')
-    visitor = WebVisitor.for property_uid, params.delete('__vid')
+    visitor = WebVisitor.for property_uid, params.delete('__uid')
     return nil unless visitor
     page = WebPage.for property_uid, params.delete('__url')
     referrer = WebPage.for property_uid, params.delete('__ref')
     browser_time = params.delete '__time'
+    ['format', 'controller', 'action'].each do |rails_header|
+      params.delete rails_header
+    end
     Event.create :web_property_id => visitor.web_property_id,
                  :visitor => visitor, :browser_time => browser_time,
                  :page => page, :referrer => referrer, :data => params

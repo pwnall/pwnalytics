@@ -40,6 +40,7 @@ describe WebPage do
   end
   
   describe 'for' do
+    let(:null_page) { web_pages :null_page }
     it 'should find existing page' do
       WebPage.for(test_page.web_property_uid, test_page.url).should == test_page
     end
@@ -49,6 +50,16 @@ describe WebPage do
       new_page.should_not be_new_record
       new_page.web_property_uid.should == page.web_property_uid
       new_page.url.should == page.url
+    end
+    
+    it 'should return null page for empty URLs' do
+      WebPage.for(null_page.web_property_uid, '').should == null_page
+    end
+    it 'should return null page for nil URLs' do
+      WebPage.for(null_page.web_property_uid, nil).should == null_page
+    end
+    it 'should return null page for URLs set to null' do
+      WebPage.for(null_page.web_property_uid, 'null').should == null_page
     end
   end
 end
