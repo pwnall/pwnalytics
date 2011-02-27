@@ -6,7 +6,7 @@ describe WebVisitor do
   let(:visitor) do
     WebVisitor.new :web_property => web_properties(:js_test),
                    :web_property_uid => web_properties(:js_test).uid,
-                   :uid => '1298789970758.8292457042261958.17287445371039212'
+                   :uid => '12e68ebfdbf.73568fc32b13585a'
   end
   let(:pwnall) { web_visitors :pwnall }
   
