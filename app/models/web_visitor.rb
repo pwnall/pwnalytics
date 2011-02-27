@@ -7,7 +7,7 @@ class WebVisitor < ActiveRecord::Base
   validates :web_property_uid, :length => 8..8, :presence => true  
   validate :web_property_uid_matches
   # The ID used by the Pwnalytics JS to identify the visitor.
-  validates :uid, :presence => true, :length => 1..52,
+  validates :uid, :presence => true, :length => 1..32,
             :uniqueness => {:scope => :web_property_uid }
   # NOTE: the uniqueness scope is chosen to match the database index.
 
