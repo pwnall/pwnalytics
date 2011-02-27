@@ -10,6 +10,16 @@
   <%= @web_property.name %>
 </p>
 
+<section class="js_snippet">
+  <h3>Tracking Instructions</h3>
+  <p>
+    To start tracking pages, insert the following snippet at the end of your
+    <code>&lt;head&gt;</code> tag.
+  </p>
+  <pre>
+<%= @html_snippet %>
+  </pre>
+</section>
 
 <%= link_to 'Edit', edit_web_property_path(@web_property) %> |
 <%= link_to 'Back', web_properties_path %>

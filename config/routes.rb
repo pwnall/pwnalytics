@@ -1,7 +1,8 @@
 Pwnalytics::Application.routes.draw do
-  get "session/index"
-
   resources :web_properties
+  resources :events, :only => [:index, :show]
+  get 'p.gif' => 'events#create', :format => 'gif', :as => :create_event
+  get 'p.js' => 'events#new', :format => 'js', :as => :new_event
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

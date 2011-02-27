@@ -1,0 +1,25 @@
+<h1>Listing events</h1>
+
+<table>
+  <tr>
+    <th>Web property</th>
+    <th>Browser time</th>
+    <th>Data</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @events.each do |event| %>
+  <tr>
+    <td><%= event.web_property_id %></td>
+    <td><%= event.browser_time %></td>
+    <td><%= event.data %></td>
+    <td><%= link_to 'Show', event %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Event', new_event_path %>

@@ -19,10 +19,18 @@ describe WebPropertiesController do
   end
 
   describe "GET show" do
+    let(:stubbed_web_property) { mock_model(WebProperty, {:uid => 'AX123456'}) }
     it "assigns the requested web_property as @web_property" do
-      WebProperty.stub(:find).with("37") { mock_web_property }
+      WebProperty.stub(:find).with("37") { stubbed_web_property }
       get :show, :id => "37"
-      assigns(:web_property).should be(mock_web_property)
+      assigns(:web_property).should be(stubbed_web_property)
+    end
+    
+    it "assigns the tracking snippet as @html_snippet" do
+      WebProperty.stub(:find).with("37") { stubbed_web_property }
+      get :show, :id => "37"
+      assigns(:html_snippet).should include('AX123456')
+      assigns(:html_snippet).should include('_paq.push')
     end
   end
 
