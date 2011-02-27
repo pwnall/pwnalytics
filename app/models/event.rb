@@ -38,8 +38,9 @@ class Event < ActiveRecord::Base
     page = WebPage.for property_uid, params.delete('__url')
     referrer = WebPage.for property_uid, params.delete('__ref')
     browser_time = params.delete '__time'
-    Event.create :visitor => visitor, :browser_time => browser_time,
-                 :data => params
+    Event.create :web_property_id => visitor.web_property_id,
+                 :visitor => visitor, :browser_time => browser_time,
+                 :page => page, :referrer => referrer, :data => params
   end
 
   # Checks that the web property is denormalized correctly.

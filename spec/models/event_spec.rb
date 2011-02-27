@@ -53,4 +53,37 @@ describe Event do
     event.save!
     Event.find(event.id).data.should == event.data
   end
+  
+  describe 'create_from_params' do
+    let(:null_page) { web_pages :null_page }
+    let(:params) do
+      {
+        '__pid' => js_test.uid, '__vid' => pwnall.uid,
+        '__url' => test_page.url, '__ref' => null_page.url,
+        '__time' => event.browser_time
+      }.merge event.data
+    end
+    before do
+      @web_event = Event.create_from_params params
+    end
+    
+    it 'should save event' do
+      @web_event.should_not be_new_record
+    end
+    it 'should set web property' do
+      @web_event.web_property.should == js_test
+    end
+    it 'should set visitor' do
+      @web_event.visitor.should == pwnall
+    end
+    it 'should set page' do
+      @web_event.page.should == test_page
+    end
+    it 'should set referrer' do
+      @web_event.referrer.should == null_page
+    end
+    it 'should remove metadata from event properties' do
+      @web_event.data.should == event.data
+    end
+  end
 end
