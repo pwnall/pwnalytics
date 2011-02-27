@@ -2,7 +2,22 @@
 
 <p>
   <b>Web property:</b>
-  <%= @event.web_property_id %>
+  <%= @event.web_property.name %>
+</p>
+
+<p>
+  <b>Visitor:</b>
+  <%= link_to @event.web_visitor.uid, @event.web_visitor %>
+</p>
+
+<p>
+  <b>Page:</b>
+  <%= @event.page.url %>
+</p>
+
+<p>
+  <b>Referrer:</b>
+  <%= @event.referrer.url %>
 </p>
 
 <p>
@@ -12,7 +27,7 @@
 
 <p>
   <b>Data:</b>
-  <%= @event.data %>
+  <%= @event.data.to_json %>
 </p>
 
 

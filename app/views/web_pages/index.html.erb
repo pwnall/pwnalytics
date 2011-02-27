@@ -1,25 +1,19 @@
-<h1>Listing web_pages</h1>
+<h1>Your Pages</h1>
 
 <table>
   <tr>
-    <th>Web property</th>
+    <th>Property</th>
     <th>Url</th>
-    <th></th>
-    <th></th>
+    <th>Events</th>
     <th></th>
   </tr>
 
 <% @web_pages.each do |web_page| %>
   <tr>
-    <td><%= web_page.web_property_id %></td>
+    <td><%= link_to web_page.web_property.name, web_page.web_property %></td>
     <td><%= web_page.url %></td>
-    <td><%= link_to 'Show', web_page %></td>
-    <td><%= link_to 'Edit', edit_web_page_path(web_page) %></td>
-    <td><%= link_to 'Destroy', web_page, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= web_page.events.count %></td>
+    <td><%= link_to 'Details', web_page %></td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Web page', new_web_page_path %>

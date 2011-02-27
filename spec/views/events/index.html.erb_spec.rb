@@ -1,28 +1,16 @@
 require 'spec_helper'
 
 describe "events/index.html.erb" do
+  fixtures :all
   before(:each) do
-    assign(:events, [
-      stub_model(Event,
-        :web_property_id => 1,
-        :browser_time => 1,
-        :data => "MyText"
-      ),
-      stub_model(Event,
-        :web_property_id => 1,
-        :browser_time => 1,
-        :data => "MyText"
-      )
-    ])
+    assign(:events, Event.all)
   end
 
   it "renders a list of events" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => 1.to_s, :count => 2
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => 1.to_s, :count => 2
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
+    assert_select "tr>td", :text => web_properties(:js_test).name
+    assert_select "tr>td", :text => events(:test_load).page.url
+    assert_select "tr>td", :text => events(:test_load).referrer.url
+    assert_select "tr>td", :text => events(:test_load).browser_time.to_s
   end
 end

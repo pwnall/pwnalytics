@@ -1,8 +1,9 @@
 # The atomic unit of tracking.
 class Event < ActiveRecord::Base
   # The user who caused this event.
-  belongs_to :visitor, :class_name => 'WebVisitor'
-  validates :visitor, :presence => true
+  belongs_to :web_visitor, :foreign_key => 'visitor_id',
+             :class_name => 'WebVisitor', :inverse_of => :events
+  validates :web_visitor, :presence => true
   # De-normalized vistor.web_property.
   belongs_to :web_property, :class_name => 'WebProperty'
   validate :web_property_matches_visitor
@@ -42,14 +43,14 @@ class Event < ActiveRecord::Base
       params.delete rails_header
     end
     Event.create :web_property_id => visitor.web_property_id,
-                 :visitor => visitor, :browser_time => browser_time,
+                 :web_visitor => visitor, :browser_time => browser_time,
                  :page => page, :referrer => referrer, :data => params
   end
 
   # Checks that the web property is denormalized correctly.
   def web_property_matches_visitor
-    return unless visitor
-    unless web_property_id == visitor.web_property_id
+    return unless web_visitor
+    unless web_property_id == web_visitor.web_property_id
       errors.add :web_property_id, 'is inconsistent with visitor'
     end
     return true

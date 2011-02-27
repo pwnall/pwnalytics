@@ -7,6 +7,11 @@ class WebProperty < ActiveRecord::Base
   validates :uid, :presence => true, :length => 8..8, :uniqueness => true,
                   :format => /^[0-9A-F]+$/
   
+  # Visitors logged on this property.
+  has_many :web_visitors, :inverse_of => :web_property
+  # Events generated on this property.
+  has_many :events, :inverse_of => :web_property
+  
   # Generates a unique ID for this property.
   def generate_uid
     self.uid ||= self.class.random_uid

@@ -6,8 +6,9 @@ describe Event do
   let(:js_test) { web_properties :js_test }
   let(:test_page) { web_pages :test_page }
   let(:event) do
-    Event.new :visitor => pwnall, :web_property => js_test, :page => test_page,
-              :referrer => test_page, :browser_time => 1298789991386,
+    Event.new :web_visitor => pwnall, :web_property => js_test,
+              :page => test_page, :referrer => test_page,
+              :browser_time => 1298789991386,
               :data => {'__' => 'whatever', 'pixie' => 'dust'}
   end
   
@@ -25,7 +26,7 @@ describe Event do
   end
   
   it 'should require a visitor' do
-    event.visitor = nil
+    event.web_visitor = nil
     event.should_not be_valid    
   end
   
@@ -75,7 +76,7 @@ describe Event do
       @web_event.web_property.should == js_test
     end
     it 'should set visitor' do
-      @web_event.visitor.should == pwnall
+      @web_event.web_visitor.should == pwnall
     end
     it 'should set page' do
       @web_event.page.should == test_page

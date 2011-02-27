@@ -10,6 +10,9 @@ class WebPage < ActiveRecord::Base
   validates :url, :presence => true, :length => 1..148,
             :uniqueness => {:scope => :web_property_uid }
   # NOTE: the uniqueness scope is chosen to match the database index.
+  
+  # Events generated on this page.
+  has_many :events, :foreign_key => 'page_id', :inverse_of => :page
 
   # Creates or retrieves a WebPage matching the arguments.
   def self.for(property_uid, url)

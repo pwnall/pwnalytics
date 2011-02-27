@@ -2,8 +2,10 @@
 
 <table>
   <tr>
-    <th>Name</th>
     <th>Property ID</th>
+    <th>Name</th>
+    <th>Visitors</th>
+    <th>Events</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,8 +13,10 @@
 
 <% @web_properties.each do |web_property| %>
   <tr>
-    <td><%= web_property.name %></td>
     <td><%= web_property.uid %></td>
+    <td><%= web_property.name %></td>
+    <td><%= web_property.web_visitors.count %></td>
+    <td><%= web_property.events.count %></td>
     <td><%= link_to 'Show', web_property %></td>
     <td><%= link_to 'Edit', edit_web_property_path(web_property) %></td>
     <td><%= link_to 'Destroy', web_property, :confirm => 'Are you sure?', :method => :delete %></td>
