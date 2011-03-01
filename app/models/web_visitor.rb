@@ -21,8 +21,14 @@ class WebVisitor < ActiveRecord::Base
     return visitor if visitor
     
     return nil unless property = WebProperty.where(:uid => property_uid).first
-    WebVisitor.create :web_property => property, :uid => uid,
-                      :web_property_uid => property.uid
+    begin
+      WebVisitor.create :web_property => property, :uid => uid,
+                        :web_property_uid => property.uid
+    rescue
+      # NOTE: the visitor might have gotten created by a different server.
+      # Concurrency yum yum.
+      WebVisitor.where(:web_property_uid => property_uid, :uid => uid).first
+    end
   end
   
   # Validates the correctness of the the de-normalized web_property_uid.
