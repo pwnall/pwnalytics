@@ -16,7 +16,7 @@ class WebPropertiesController < ApplicationController
     @web_property = WebProperty.find(params[:id])
     js_snippet = PwnalyticsJS::PwnalyticsJS.insertion_js new_event_url,
                                                          @web_property.uid
-    @html_snippet = %Q|<script type="text/html">\n  #{js_snippet}\n</script>|
+    @html_snippet = %Q|<script type="text/javascript">\n  #{js_snippet}\n</script>|
 
     respond_to do |format|
       format.html # show.html.erb
