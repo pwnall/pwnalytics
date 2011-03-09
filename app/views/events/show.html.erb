@@ -11,6 +11,11 @@
 </p>
 
 <p>
+  <b>Visitor IP:</b>
+  <%= @event.ip %>
+</p>
+
+<p>
   <b>Page:</b>
   <%= @event.page.url %>
 </p>
@@ -21,8 +26,28 @@
 </p>
 
 <p>
+  <b>Browser:</b>
+  <%= @event.browser_ua %>
+</p>
+
+<p>
   <b>Browser time:</b>
   <%= @event.browser_time %>
+</p>
+
+<p>
+  <b>Screen:</b>
+  <%= @event.screen_width %> x <%= @event.screen_height %> : <%= @event.color_depth %> bpp
+</p>
+
+<p>
+  <b>Page:</b>
+  <%= @event.document_width %> x <%= @event.document_height %>
+</p>
+
+<p>
+  <b>Window offset:</b>
+  <%= @event.window_x %> , <%= @event.window_y %>
 </p>
 
 <p>

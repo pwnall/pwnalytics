@@ -9,4 +9,6 @@ test_load:
   color_depth: 24
   document_width: 1680
   document_height: 931
+  ip: "1.2.3.4"
+  browser_ua: "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Ubuntu/10.10 Chromium/9.0.597.107 Chrome/9.0.597.107 Safari/534.13"
   data_json: <%= {'__' => 'page'}.to_json.inspect %>

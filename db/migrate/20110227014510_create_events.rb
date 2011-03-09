@@ -13,6 +13,8 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :document_height, :null => false
       t.integer :window_x, :null => false
       t.integer :window_y, :null => false
+      t.string :ip, :length => 64, :null => false
+      t.string :browser_ua, :length => 256, :null => false
       t.text :data_json, :limit => 4.kilobytes, :null => false
       t.datetime :created_at
     end

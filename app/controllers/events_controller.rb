@@ -31,7 +31,8 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.create_from_params params
+    @event = Event.create_from_params params, request.user_agent,
+                                      request.remote_ip
     render :text => PwnalyticsJS::PwnalyticsJS.gif_contents
   end
 end
