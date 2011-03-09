@@ -9,19 +9,39 @@ describe EventsController do
     @mock_event ||= mock_model(Event, stubs).as_null_object
   end
 
+  describe "with http basic" do
+    before(:each) do
+      configvars_auth
+    end
+    
+    describe "GET index" do
+      it "assigns all events as @events" do
+        Event.stub(:all) { [mock_event] }
+        get :index, {}
+        assigns(:events).should eq([mock_event])
+      end
+    end
+  
+    describe "GET show" do
+      it "assigns the requested event as @event" do
+        Event.stub(:find).with("37") { mock_event }
+        get :show, {:id => "37"}
+        assigns(:event).should be(mock_event)
+      end
+    end
+  end
+
   describe "GET index" do
-    it "assigns all events as @events" do
-      Event.stub(:all) { [mock_event] }
-      get :index
-      assigns(:events).should eq([mock_event])
+    it "fails without authorization" do
+      get :show, :id => "37"
+      response.status.should == 401
     end
   end
 
   describe "GET show" do
-    it "assigns the requested event as @event" do
-      Event.stub(:find).with("37") { mock_event }
-      get :show, :id => "37"
-      assigns(:event).should be(mock_event)
+    it "fails without authorization" do
+      get :show, {:id => "37"}
+      response.status.should == 401
     end
   end
 

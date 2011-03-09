@@ -30,7 +30,7 @@ GEM
     activesupport (3.0.5)
     arel (2.0.9)
     builder (2.1.2)
-    configvars_rails (0.3.1)
+    configvars_rails (0.4.0)
       rails (>= 3.0.0)
     diff-lcs (1.1.2)
     erubis (2.6.6)
@@ -89,7 +89,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  configvars_rails (>= 0.3.1)
+  configvars_rails (>= 0.4.0)
   jquery-rails (>= 0.2.7)
   mysql2
   rails (>= 3.0.5)

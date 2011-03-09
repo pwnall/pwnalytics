@@ -5,6 +5,7 @@ Pwnalytics::Application.routes.draw do
   resources :web_properties
   get 'p.gif' => 'events#create', :format => 'gif', :as => :create_event
   get 'p.js' => 'events#new', :format => 'js', :as => :new_event
+  config_vars
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

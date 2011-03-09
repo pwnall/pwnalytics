@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  config_vars_auth :except => [:new, :create]
+
   # GET /events
   # GET /events.json
   def index
