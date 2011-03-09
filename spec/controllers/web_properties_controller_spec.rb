@@ -31,6 +31,7 @@ describe WebPropertiesController do
       get :show, :id => "37"
       assigns(:html_snippet).should include('AX123456')
       assigns(:html_snippet).should include('_paq.push')
+      assigns(:html_snippet).should include('<script type="text/javascript">')
     end
   end
 

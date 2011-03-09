@@ -21,8 +21,14 @@ class WebPage < ActiveRecord::Base
     return page if page
     
     return nil unless property = WebProperty.where(:uid => property_uid).first
-    WebPage.create :web_property => property, :url => url,
-                   :web_property_uid => property.uid
+    begin
+      WebPage.create :web_property => property, :url => url,
+                     :web_property_uid => property.uid
+    rescue
+      # NOTE: the visitor might have gotten created by a different server.
+      # Concurrency yum yum.
+      WebPage.where(:web_property_uid => property_uid, :url => url).first
+    end
   end
   
   # Validates the correctness of the the de-normalized web_property_uid.
