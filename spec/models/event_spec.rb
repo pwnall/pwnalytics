@@ -9,6 +9,7 @@ describe Event do
     Event.new :web_visitor => pwnall, :web_property => js_test,
               :page => test_page, :referrer => test_page,
               :browser_time => 1298789991386,
+              :screen_info => '1ao.t6.o.t4.ey.az.e',
               :data => {'__' => 'whatever', 'pixie' => 'dust'}
   end
   
@@ -55,13 +56,23 @@ describe Event do
     Event.find(event.id).data.should == event.data
   end
   
+  it 'should decode screen info correctly' do
+    event.screen_width.should == 1680
+    event.screen_height.should == 1050
+    event.color_depth.should == 24
+    event.document_width.should == 1048
+    event.document_height.should == 538
+    event.window_x.should == 395
+    event.window_y.should == 14
+  end
+  
   describe 'create_from_params' do
     let(:null_page) { web_pages :null_page }
     let(:params) do
       {
         '__pid' => js_test.uid, '__uid' => pwnall.uid,
         '__url' => test_page.url, '__ref' => null_page.url,
-        '__time' => event.browser_time,
+        '__time' => event.browser_time, '__px' => '1ao.t6.o.t4.ey.az.e',
         'controller' => 'event', 'action' => 'create', 'format' => 'gif'
       }.merge event.data
     end

@@ -17,6 +17,29 @@ class Event < ActiveRecord::Base
   # The browser-side timestamp (UNIX time, in milliseconds) for the event.
   validates :browser_time, :presence => true, 
       :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+
+  # Width (X) of the user's screen resolution. 1024 in 1024x768
+  validates :screen_width, :presence => true,
+      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+  # Height (Y) of the user's screen resolution. 768 in 1024x768
+  validates :screen_height, :presence => true,
+      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+  # Color bits per pixel. 24 for true color.
+  validates :color_depth, :presence => true,
+      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+  # Width (X) of the browser's client area. Excludes toolbars etc.
+  validates :document_width, :presence => true,
+      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+  # Height (Y) of the browser's client area. Excludes toolbars etc.
+  validates :document_height, :presence => true,
+      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+  # The browser window's X position on screen.
+  validates :window_x, :presence => true,
+      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+  # The browser window's Y position on screen.
+  validates :window_y, :presence => true,
+      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+
   # All the event's properties.
   validates :data_json, :presence => true
 
@@ -39,12 +62,22 @@ class Event < ActiveRecord::Base
     page = WebPage.for property_uid, params.delete('__url')
     referrer = WebPage.for property_uid, params.delete('__ref')
     browser_time = params.delete '__time'
+    screen_info = params.delete '__px'
     ['format', 'controller', 'action'].each do |rails_header|
       params.delete rails_header
     end
     Event.create :web_property_id => visitor.web_property_id,
                  :web_visitor => visitor, :browser_time => browser_time,
-                 :page => page, :referrer => referrer, :data => params
+                 :page => page, :referrer => referrer, :data => params,
+                 :screen_info => screen_info
+  end
+  
+  # Virtual attribute that decodes the PwnalyticsJS screen info string.
+  def screen_info=(info_string)
+    bits = info_string.split('.').map { |bit| bit.to_i 36 }
+    self.screen_width, self.screen_height, self.color_depth,
+        self.document_width, self.document_height,
+        self.window_x, self.window_y = *bits
   end
 
   # Checks that the web property is denormalized correctly.

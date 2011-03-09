@@ -1,7 +1,4 @@
 class EventsController < ApplicationController
-  # Don't spam indirect users with cookies.
-  session :off, :only => [:new, :create]
-  
   # GET /events
   # GET /events.json
   def index
