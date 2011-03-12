@@ -7,7 +7,7 @@ class WebPagesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @web_pages }
+      format.json { render :json => @web_pages.map(&:to_api_hash) }
     end
   end
 
@@ -18,7 +18,7 @@ class WebPagesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @web_page }
+      format.json { render :json => @web_page.to_api_hash }
     end
   end
 end

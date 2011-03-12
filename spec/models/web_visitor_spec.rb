@@ -51,4 +51,11 @@ describe WebVisitor do
       new_visitor.uid.should == visitor.uid
     end
   end
+  
+  it 'should format for API correctly' do
+    golden = {
+      :uid => '12e68ee3144.3246e8e66155c65d'
+    }
+    web_visitors(:pwnall).to_api_hash.should == golden
+  end
 end

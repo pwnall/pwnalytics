@@ -7,7 +7,7 @@ class WebVisitorsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @web_visitors }
+      format.json { render :json => @web_visitors.map(&:to_api_hash) }
     end
   end
 
@@ -18,7 +18,7 @@ class WebVisitorsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @web_visitor }
+      format.json { render :json => @web_visitor.to_api_hash }
     end
   end
 end

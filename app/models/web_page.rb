@@ -38,4 +38,9 @@ class WebPage < ActiveRecord::Base
       errors.add :web_property_uid, 'is inconsistent with web_property'
     end
   end
+  
+  # Page data, formatted for use in API responses.
+  def to_api_hash
+    { :url => url }
+  end
 end

@@ -95,4 +95,22 @@ class Event < ActiveRecord::Base
     return true
   end
   private :web_property_matches_visitor
+  
+  # Event data, formatted for use in API responses.
+  def to_api_hash
+    {
+      :id => id,
+      :pixels => {
+        :document => { :height => document_height, :width => :document_width },
+        :screen => { :width => screen_width, :height => screen_height },
+        :window => { :x => window_x, :y => window_y }, 
+      },
+      :browser => {
+        :time => browser_time, :ua => browser_ua,
+      },
+      :ip => ip, :data => data,
+      :page => page.to_api_hash, :referrer => referrer.to_api_hash,
+      :visitor => web_visitor.to_api_hash
+    }
+  end
 end

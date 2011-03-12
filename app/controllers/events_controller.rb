@@ -5,11 +5,11 @@ class EventsController < ApplicationController
   # GET /web_properties/1/events.json
   def index
     @web_property = WebProperty.find params[:web_property_id]
-    @events = @web_property.events
+    @events = @web_property.events(:include => [:page, :referrer, :web_visitor])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @events }
+      format.json { render :json => @events.map(&:to_api_hash) }
     end
   end
 
@@ -20,7 +20,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @event }
+      format.json { render :json => @event.to_api_hash }
     end
   end
 

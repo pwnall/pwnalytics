@@ -77,6 +77,27 @@ describe Event do
     event.window_y.should == 14
   end
   
+  it 'should format for API correctly' do
+    golden = {
+      :referrer => web_pages(:test_page).to_api_hash,
+      :page => web_pages(:test_page_alias).to_api_hash,
+      :visitor => web_visitors(:pwnall).to_api_hash,
+      :data => { '__' => 'page'},
+      :pixels => {
+        :screen => { :width=>1680, :height=>1050 },
+        :window => { :x => 0, :y => 0 },
+        :document => { :width => :document_width, :height => 931 }
+      },
+      :ip => '1.2.3.4',
+      :browser => {
+        :ua => 'Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Ubuntu/10.10 Chromium/9.0.597.107 Chrome/9.0.597.107 Safari/534.13',
+        :time => 1298799635048
+      },
+      :id => 545246930
+    }
+    events(:test_load).to_api_hash.should == golden
+  end
+  
   describe 'create_from_params' do
     let(:null_page) { web_pages :null_page }
     let(:params) do

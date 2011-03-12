@@ -38,4 +38,10 @@ class WebVisitor < ActiveRecord::Base
       errors.add :web_property_uid, 'is inconsistent with web_property'
     end
   end
+  
+  
+  # Visitor data, formatted for use in API responses.
+  def to_api_hash
+    { :uid => uid }
+  end  
 end

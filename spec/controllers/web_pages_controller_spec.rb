@@ -36,6 +36,27 @@ describe WebPagesController do
         assigns(:web_page).should be(mock_web_page)
       end
     end
+    
+    describe "GET index via JSON" do
+      it "renders pages via to_api_hash" do
+        WebProperty.stub(:find).with('42') { mock_property }
+        mock_property.stub(:web_pages) { [mock_web_page] }
+        mock_web_page.stub(:to_api_hash) { { 'api' => 'hash' } }
+        get :index, :web_property_id => '42', :format => 'json'
+        ActiveSupport::JSON.decode(response.body).should == [{ 'api' => 'hash'}]
+      end
+    end
+
+    describe "GET show via JSON" do
+      it "renders requested event via to_api_hash" do
+        WebPage.stub(:find).with('37') do
+          mock_web_page(:web_property => mock_property)
+        end
+        mock_web_page.stub(:to_api_hash) { { 'api' => 'hash' } }
+        get :show, :id => '37', :web_property_id => '42', :format => 'json'
+        ActiveSupport::JSON.decode(response.body).should == { 'api' => 'hash'}
+      end
+    end
   end
 
   describe "GET index" do

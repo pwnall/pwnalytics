@@ -26,7 +26,7 @@ describe EventsController do
         assigns(:events).should eq([mock_event])
       end
     end
-  
+
     describe "GET show" do
       it "assigns the requested event as @event" do
         Event.stub(:find).with("37") do
@@ -34,6 +34,27 @@ describe EventsController do
         end
         get :show, :id => "37", :web_property_id => "42"
         assigns(:event).should be(mock_event)
+      end
+    end
+    
+    describe "GET index via JSON" do
+      it "renders events via to_api_hash" do
+        WebProperty.stub(:find).with('42') { mock_property }
+        mock_property.stub(:events) { [mock_event] }
+        mock_event.stub(:to_api_hash) { { 'api' => 'hash' } }
+        get :index, :web_property_id => '42', :format => 'json'
+        ActiveSupport::JSON.decode(response.body).should == [{ 'api' => 'hash'}]
+      end
+    end
+
+    describe "GET show via JSON" do
+      it "renders requested event via to_api_hash" do
+        Event.stub(:find).with('37') do
+          mock_event(:web_property => mock_property)
+        end
+        mock_event.stub(:to_api_hash) { { 'api' => 'hash' } }
+        get :show, :id => '37', :web_property_id => '42', :format => 'json'
+        ActiveSupport::JSON.decode(response.body).should == { 'api' => 'hash'}
       end
     end
   end

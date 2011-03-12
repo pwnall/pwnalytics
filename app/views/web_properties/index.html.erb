@@ -5,6 +5,7 @@
     <th>Property ID</th>
     <th>Name</th>
     <th>Visitors</th>
+    <th>Pages</th>
     <th>Events</th>
     <th></th>
     <th></th>
@@ -15,11 +16,25 @@
   <tr>
     <td><%= web_property.uid %></td>
     <td><%= web_property.name %></td>
-    <td><%= web_property.web_visitors.count %></td>
-    <td><%= web_property.events.count %></td>
+    <td>
+      <%= link_to web_property.web_visitors.count,
+                  web_property_web_visitors_path(web_property) %>
+    </td>
+    <td>
+      <%= link_to web_property.web_pages.count,
+                  web_property_web_pages_path(web_property) %>
+    </td>
+    <td>
+      <%= link_to web_property.events.count,
+                  web_property_events_path(web_property) %>
+    </td>
     <td><%= link_to 'Show', web_property %></td>
-    <td><%= link_to 'Edit', edit_web_property_path(web_property) %></td>
-    <td><%= link_to 'Destroy', web_property, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Rename', edit_web_property_path(web_property) %></td>
+    <td>
+      <%= link_to 'Destroy', web_property,
+              :confirm => "This will permanently remove all data connected with this property. Are you sure?",
+              :method => :delete %>
+    </td>
   </tr>
 <% end %>
 </table>

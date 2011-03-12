@@ -62,4 +62,11 @@ describe WebPage do
       WebPage.for(null_page.web_property_uid, 'null').should == null_page
     end
   end
+  
+  it 'should format for API correctly' do
+    golden = {
+      :url => 'http://localhost:8888/'
+    }
+    web_pages(:test_page).to_api_hash.should == golden
+  end
 end
