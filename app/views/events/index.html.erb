@@ -1,8 +1,11 @@
-<h1>Listing events</h1>
+<h1>
+  Events for
+  <%= link_to @web_property.name, @web_property %>
+</h1>
 
 <table>
   <tr>
-    <th>Web property</th>
+    <th>Visitor</th>
     <th>Page</th>
     <th>Referrer</th>
     <th>Browser time</th>
@@ -14,9 +17,18 @@
 
 <% @events.each do |event| %>
   <tr>
-    <td><%= event.web_property.name %></td>
-    <td><%= event.page.url %></td>
-    <td><%= event.referrer.url %></td>
+    <td>
+      <%= link_to event.web_visitor.uid, web_property_web_visitor_path(
+              event.web_property, event.web_visitor) %>
+    </td>
+    <td>
+      <%= link_to event.page.url, web_property_web_page_path(
+              event.web_property, event.page) %>
+    </td>
+    <td>
+      <%= link_to event.referrer.url, web_property_web_page_path(
+              event.web_property, event.referrer) %>
+    </td>
     <td><%= event.browser_time %></td>
     <td><%= event.data.to_json %></td>
     <td>

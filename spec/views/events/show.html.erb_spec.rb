@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "events/show.html.erb" do
   fixtures :all
   before(:each) do
+    @web_property = assign(:web_property, web_properties(:js_test))
     @event = assign(:event, events(:test_load))
   end
 

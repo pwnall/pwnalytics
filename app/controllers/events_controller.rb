@@ -4,8 +4,8 @@ class EventsController < ApplicationController
   # GET /web_properties/1/events
   # GET /web_properties/1/events.json
   def index
-    web_property = WebProperty.find params[:web_property_id]
-    @events = web_property.events
+    @web_property = WebProperty.find params[:web_property_id]
+    @events = @web_property.events
 
     respond_to do |format|
       format.html # index.html.erb
