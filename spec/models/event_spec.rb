@@ -10,6 +10,7 @@ describe Event do
               :page => test_page, :referrer => test_page,
               :browser_time => 1298789991386,
               :screen_info => '1ao.t6.o.t4.ey.az.e',
+              :browser_ua => events(:test_load).browser_ua, :ip => '2.3.4.5',
               :data => {'__' => 'whatever', 'pixie' => 'dust'}
   end
   
@@ -31,6 +32,11 @@ describe Event do
     event.should_not be_valid    
   end
   
+  it 'should require a visitor ip' do
+    event.ip = nil
+    event.should_not be_valid
+  end
+
   it 'should require a page' do
     event.page = nil
     event.should_not be_valid
@@ -41,6 +47,11 @@ describe Event do
     event.should_not be_valid    
   end
 
+  it 'should require an user agent' do
+    event.browser_ua = nil
+    event.should_not be_valid
+  end
+  
   it 'should require event data' do
     event.data = nil
     event.should_not be_valid
@@ -77,7 +88,7 @@ describe Event do
       }.merge event.data
     end
     before do
-      @web_event = Event.create_from_params params
+      @web_event = Event.create_from_params params, 'Rails Testing', '0.0.0.0'
     end
     
     it 'should save event' do
@@ -97,6 +108,21 @@ describe Event do
     end
     it 'should remove metadata from event properties' do
       @web_event.data.should == event.data
+    end
+    it 'should set ip' do
+      @web_event.ip.should == '0.0.0.0'
+    end
+    it 'should set user agent' do
+      @web_event.browser_ua.should == 'Rails Testing'
+    end
+    it 'should decode metrics' do
+      @web_event.screen_width.should == 1680
+      @web_event.screen_height.should == 1050
+      @web_event.color_depth.should == 24
+      @web_event.document_width.should == 1048
+      @web_event.document_height.should == 538
+      @web_event.window_x.should == 395
+      @web_event.window_y.should == 14
     end
   end
 end

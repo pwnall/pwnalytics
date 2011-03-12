@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20110227091841) do
     t.integer  "document_height",              :null => false
     t.integer  "window_x",                     :null => false
     t.integer  "window_y",                     :null => false
+    t.string   "ip",                           :null => false
+    t.string   "browser_ua",                   :null => false
     t.text     "data_json",                    :null => false
     t.datetime "created_at"
   end

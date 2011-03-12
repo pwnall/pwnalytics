@@ -68,7 +68,8 @@ describe EventsController do
     describe "with valid params" do
       it "assigns a newly created event as @event" do
         Event.stub(:create_from_params).with({'controller' => 'events',
-            'action' => 'create', 'these' => 'params'}) { mock_event(:save => true) }
+            'action' => 'create', 'these' => 'params'}, 'Rails Testing',
+            '0.0.0.0') { mock_event(:save => true) }
         post :create, {'these' => 'params'}, :format => 'gif'
         assigns(:event).should be(mock_event)
       end
@@ -83,7 +84,8 @@ describe EventsController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved event as @event" do
         Event.stub(:create_from_params).with({'controller' => 'events',
-            'action' => 'create', 'these' => 'params'}) { mock_event(:save => false) }
+            'action' => 'create', 'these' => 'params'}, 'Rails Testing',
+            '0.0.0.0') { mock_event(:save => false) }
         post :create, {'these' => 'params'}, :format => 'gif'
         assigns(:event).should be(mock_event)
       end

@@ -40,6 +40,11 @@ class Event < ActiveRecord::Base
   validates :window_y, :presence => true,
       :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
 
+  # The IP address of the incoming HTTP request.
+  validates :ip, :length => 1..64, :presence => true
+  # The browser's User-Agent header.
+  validates :browser_ua, :length => 1..256, :presence => true
+
   # All the event's properties.
   validates :data_json, :presence => true
 
@@ -53,7 +58,7 @@ class Event < ActiveRecord::Base
   end
   
   # Creates an event based on the data in a Web request.
-  def self.create_from_params(request_params)
+  def self.create_from_params(request_params, user_agent, ip)
     params = request_params.clone
     
     property_uid = params.delete('__pid')
@@ -69,7 +74,8 @@ class Event < ActiveRecord::Base
     Event.create :web_property_id => visitor.web_property_id,
                  :web_visitor => visitor, :browser_time => browser_time,
                  :page => page, :referrer => referrer, :data => params,
-                 :screen_info => screen_info
+                 :screen_info => screen_info,
+                 :browser_ua => user_agent[0, 256], :ip => ip[0, 64]
   end
   
   # Virtual attribute that decodes the PwnalyticsJS screen info string.
