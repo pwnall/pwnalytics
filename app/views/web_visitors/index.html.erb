@@ -10,10 +10,15 @@
 
 <% @web_visitors.each do |web_visitor| %>
   <tr>
-    <td><%= link_to web_visitor.web_property.name, web_visitor.web_property %></td>
+    <td>
+      <%= link_to web_visitor.web_property.name, web_visitor.web_property %>
+    </td>
     <td><%= web_visitor.uid %></td>
     <td><%= web_visitor.events.count %></td>
-    <td><%= link_to 'Details', web_visitor %></td>
+    <td>
+      <%= link_to 'Details', web_property_web_visitor_path(
+              web_visitor.web_property, web_visitor) %>
+    </td>
   </tr>
 <% end %>
 </table>

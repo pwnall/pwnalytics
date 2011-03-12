@@ -9,6 +9,10 @@ describe EventsController do
     @mock_event ||= mock_model(Event, stubs).as_null_object
   end
 
+  def mock_property(stubs={})
+    @mock_property ||= mock_model(WebProperty, stubs).as_null_object
+  end
+
   describe "with http basic" do
     before(:each) do
       configvars_auth
@@ -16,16 +20,19 @@ describe EventsController do
     
     describe "GET index" do
       it "assigns all events as @events" do
-        Event.stub(:all) { [mock_event] }
-        get :index, {}
+        WebProperty.stub(:find).with("42") { mock_property }
+        mock_property.stub(:events) { [mock_event] }
+        get :index, :web_property_id => "42"
         assigns(:events).should eq([mock_event])
       end
     end
   
     describe "GET show" do
       it "assigns the requested event as @event" do
-        Event.stub(:find).with("37") { mock_event }
-        get :show, {:id => "37"}
+        Event.stub(:find).with("37") do
+          mock_event(:web_property => mock_property)
+        end
+        get :show, :id => "37", :web_property_id => "42"
         assigns(:event).should be(mock_event)
       end
     end
@@ -33,14 +40,14 @@ describe EventsController do
 
   describe "GET index" do
     it "fails without authorization" do
-      get :show, :id => "37"
+      get :show, :id => "37", :web_property_id => "42"
       response.status.should == 401
     end
   end
 
   describe "GET show" do
     it "fails without authorization" do
-      get :show, {:id => "37"}
+      get :show, :id => "37", :web_property_id => "42"
       response.status.should == 401
     end
   end

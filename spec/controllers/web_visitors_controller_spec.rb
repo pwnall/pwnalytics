@@ -9,6 +9,9 @@ describe WebVisitorsController do
     @mock_web_visitor ||= mock_model(WebVisitor, stubs).as_null_object
   end
 
+  def mock_property(stubs={})
+    @mock_property ||= mock_model(WebProperty, stubs).as_null_object
+  end
 
   describe "with http basic" do
     before(:each) do
@@ -17,16 +20,19 @@ describe WebVisitorsController do
 
     describe "GET index" do
       it "assigns all web_visitors as @web_visitors" do
-        WebVisitor.stub(:all) { [mock_web_visitor] }
-        get :index
+        WebProperty.stub(:find).with("42") { mock_property }        
+        mock_property.stub(:web_visitors)  { [mock_web_visitor] }
+        get :index, :web_property_id => "42"
         assigns(:web_visitors).should eq([mock_web_visitor])
       end
     end
   
     describe "GET show" do
       it "assigns the requested web_visitor as @web_visitor" do
-        WebVisitor.stub(:find).with("37") { mock_web_visitor }
-        get :show, :id => "37"
+        WebVisitor.stub(:find).with("37") do
+          mock_web_visitor(:web_property => mock_property)
+        end
+        get :show, :id => "37", :web_property_id => "42"
         assigns(:web_visitor).should be(mock_web_visitor)
       end
     end
@@ -34,14 +40,14 @@ describe WebVisitorsController do
 
   describe "GET index" do
     it "fails without authorization" do
-      get :index
+      get :index, :web_property_id => "42"
       response.status.should == 401
     end
   end
 
   describe "GET show" do
     it "fails without authorization" do
-      get :show, :id => "37"
+      get :show, :id => "37", :web_property_id => "42"
       response.status.should == 401
     end
   end  

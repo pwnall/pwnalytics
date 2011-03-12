@@ -1,7 +1,7 @@
 # A page on the Web.
 class WebPage < ActiveRecord::Base
   # The property that this page is related to.
-  belongs_to :web_property
+  belongs_to :web_property, :inverse_of => :web_pages
   validates :web_property, :presence => true
   # De-normalized web_property.uid.
   validates :web_property_uid, :length => 8..8, :presence => true

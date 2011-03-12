@@ -9,6 +9,8 @@ class WebProperty < ActiveRecord::Base
   
   # Visitors logged on this property.
   has_many :web_visitors, :inverse_of => :web_property
+  # Pages visited on this property.
+  has_many :web_pages, :inverse_of => :web_property
   # Events generated on this property.
   has_many :events, :inverse_of => :web_property
   

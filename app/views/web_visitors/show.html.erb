@@ -2,7 +2,7 @@
 
 <p>
   <b>Web property:</b>
-  <%= @web_visitor.web_property_id %>
+  <%= @web_visitor.web_property.name %>
 </p>
 
 <p>
@@ -10,4 +10,4 @@
   <%= @web_visitor.uid %>
 </p>
 
-<%= link_to 'Back', web_visitors_path %>
+<%= link_to 'Back', web_property_web_visitors_path(@web_visitor.web_property) %>

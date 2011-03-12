@@ -1,18 +1,14 @@
 require 'spec_helper'
 
 describe "web_pages/show.html.erb" do
+  fixtures :web_pages, :web_properties
   before(:each) do
-    @web_page = assign(:web_page, stub_model(WebPage,
-      :web_property_id => 1,
-      :url => "Url"
-    ))
+    assign(:web_page, web_pages(:test_page))
   end
-
+  
   it "renders attributes in <p>" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/1/)
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Url/)
+    rendered.should include(web_properties(:js_test).name)
+    rendered.should include(web_pages(:test_page).url)
   end
 end

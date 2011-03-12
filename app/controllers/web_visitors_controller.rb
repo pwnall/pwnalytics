@@ -1,23 +1,24 @@
 class WebVisitorsController < ApplicationController
-  # GET /web_visitors
-  # GET /web_visitors.xml
+  # GET /web_properties/1/web_visitors
+  # GET /web_properties/1/web_visitors.json
   def index
-    @web_visitors = WebVisitor.all
+    web_property = WebProperty.find params[:web_property_id]
+    @web_visitors = web_property.web_visitors
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @web_visitors }
+      format.json { render :json => @web_visitors }
     end
   end
 
-  # GET /web_visitors/1
-  # GET /web_visitors/1.xml
+  # GET /web_properties/1/web_visitors/1
+  # GET /web_properties/1/web_visitors/1.json
   def show
     @web_visitor = WebVisitor.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @web_visitor }
+      format.json { render :json => @web_visitor }
     end
   end
 end

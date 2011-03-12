@@ -7,7 +7,8 @@
 
 <p>
   <b>Visitor:</b>
-  <%= link_to @event.web_visitor.uid, @event.web_visitor %>
+  <%= link_to @event.web_visitor.uid,
+          web_property_event_path(@event.web_property, @event.web_visitor) %>
 </p>
 
 <p>
@@ -31,4 +32,4 @@
 </p>
 
 
-<%= link_to 'Back', events_path %>
+<%= link_to 'Back', web_property_events_path(@event.web_property) %>

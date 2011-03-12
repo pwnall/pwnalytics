@@ -1,23 +1,24 @@
 class WebPagesController < ApplicationController
-  # GET /web_pages
-  # GET /web_pages.xml
+  # GET /web_properties/1/web_pages
+  # GET /web_properties/1/web_pages.json
   def index
-    @web_pages = WebPage.all
+    web_property = WebProperty.find params[:web_property_id]
+    @web_pages = web_property.web_pages
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @web_pages }
+      format.json { render :json => @web_pages }
     end
   end
 
-  # GET /web_pages/1
-  # GET /web_pages/1.xml
+  # GET /web_properties/1/web_pages/1
+  # GET /web_properties/1/web_pages/1.json
   def show
     @web_page = WebPage.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @web_page }
+      format.json { render :json => @web_page }
     end
   end
 end

@@ -1,10 +1,11 @@
 class EventsController < ApplicationController
   config_vars_auth :except => [:new, :create]
 
-  # GET /events
-  # GET /events.json
+  # GET /web_properties/1/events
+  # GET /web_properties/1/events.json
   def index
-    @events = Event.all
+    web_property = WebProperty.find params[:web_property_id]
+    @events = web_property.events
 
     respond_to do |format|
       format.html # index.html.erb
@@ -12,8 +13,8 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1
-  # GET /events/1.json
+  # GET /web_properties/1/events/1
+  # GET /web_properties/1/events/1.json
   def show
     @event = Event.find(params[:id])
 

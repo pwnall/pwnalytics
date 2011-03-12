@@ -9,6 +9,10 @@ describe WebPagesController do
     @mock_web_page ||= mock_model(WebPage, stubs).as_null_object
   end
 
+  def mock_property(stubs={})
+    @mock_property ||= mock_model(WebProperty, stubs).as_null_object
+  end
+
   describe "with http basic" do
     before(:each) do
       configvars_auth
@@ -16,16 +20,19 @@ describe WebPagesController do
     
     describe "GET index" do
       it "assigns all web_pages as @web_pages" do
-        WebPage.stub(:all) { [mock_web_page] }
-        get :index
+        WebProperty.stub(:find).with("42") { mock_property }
+        mock_property.stub(:web_pages) { [mock_web_page] }
+        get :index, :web_property_id => "42"
         assigns(:web_pages).should eq([mock_web_page])
       end
     end
   
     describe "GET show" do
       it "assigns the requested web_page as @web_page" do
-        WebPage.stub(:find).with("37") { mock_web_page }
-        get :show, :id => "37"
+        WebPage.stub(:find).with("37") do
+          mock_web_page(:web_property => mock_property)
+        end
+        get :show, :id => "37", :web_property_id => "42"
         assigns(:web_page).should be(mock_web_page)
       end
     end
@@ -33,14 +40,14 @@ describe WebPagesController do
 
   describe "GET index" do
     it "fails without authorization" do
-      get :index
+      get :index, :web_property_id => "42"
       response.status.should == 401
     end
   end
 
   describe "GET show" do
     it "fails without authorization" do
-      get :show, :id => "37"
+      get :show, :id => "37", :web_property_id => "42"
       response.status.should == 401
     end
   end

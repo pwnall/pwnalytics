@@ -19,11 +19,10 @@
     <td><%= event.referrer.url %></td>
     <td><%= event.browser_time %></td>
     <td><%= event.data.to_json %></td>
-    <td><%= link_to 'Show', event %></td>
+    <td>
+      <%= link_to 'Details',
+                  web_property_event_path(event.web_property, event) %>
+    </td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Event', new_event_path %>
