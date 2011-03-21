@@ -30,7 +30,7 @@ GEM
     activesupport (3.0.5)
     arel (2.0.9)
     builder (2.1.2)
-    configvars_rails (0.4.0)
+    configvars_rails (0.4.1)
       rails (>= 3.0.0)
     diff-lcs (1.1.2)
     erubis (2.6.6)
@@ -47,7 +47,7 @@ GEM
     mime-types (1.16)
     mysql2 (0.2.6)
     polyglot (0.3.1)
-    rack (1.2.1)
+    rack (1.2.2)
     rack-mount (0.6.13)
       rack (>= 1.0.0)
     rack-test (0.5.7)
@@ -83,7 +83,7 @@ GEM
     thor (0.14.6)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
-    tzinfo (0.3.24)
+    tzinfo (0.3.25)
 
 PLATFORMS
   ruby
