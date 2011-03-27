@@ -23,7 +23,7 @@ gem 'mysql2'
 # gem 'nokogiri'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
-gem 'configvars_rails', '>= 0.4.0'
+gem 'configvars_rails', '>= 0.4.2'
 gem 'jquery-rails', '>= 0.2.7'
 
 # Bundle gems for the local environment. Make sure to
