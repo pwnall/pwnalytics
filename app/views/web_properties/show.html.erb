@@ -21,5 +21,48 @@
   </pre>
 </section>
 
+<section class="js_api">
+  <h3>Events API</h3>
+  <p>
+    Pwnalytics lets you track more than pageviews. You can track the occurence
+    of any event that matters to your application, via a JavaScript API. The
+    following calls post events to the analytics server.
+  </p>
+  <ul>
+    <li>
+      <code>_paq.push("happy_user")</code>
+      posts a custom event, named <em>happy_user</em>. In fact, page tracking is
+      simply <code>_paq.push("page")</code>; can you spot it in the tracking
+      snippet above?
+    </li>
+    <li>
+      <code>_paq.push(["menu_click", {"menu": "File", "item": "Save"}])</code>
+      posts a custom event with additional data.
+    </li>
+  </ul>
+  
+  <p>
+    You can also add custom data to a user session, and it will show up in all
+    the events posted during that session.
+  </p>
+  <ul>
+    <li>
+      <code>_paq.push({'donated': 'yes'})</code> adds data to the user's 
+      session. All future events will have the property <code>__donated</code>
+      set to <em>yes</em>. Your Property ID is stored as the session property
+      <code>pid</code>. Can you spot the assignment in the tracking snippet
+      above?
+    </li>
+  </ul>
+  
+  <p>
+    Last, Pwnalytics keeps track of the events that have been posted, but have
+    not yet been recorded on the server. This may happen due to a slow network
+    connection, a server failure, or because there is too much load on the
+    Pwnalytics server. The number of pending events is available as
+    <code>_paq.length</code>
+  </p>
+</section>
+
 <%= link_to 'Edit', edit_web_property_path(@web_property) %> |
 <%= link_to 'Back', web_properties_path %>
