@@ -77,6 +77,13 @@ describe Event do
     event.window_y.should == 14
   end
   
+  it 'should accept negative window positions' do
+    event.screen_info = "39s.140.o.t0.q6.-1c.-4"
+    event.window_x.should == -48
+    event.window_y.should == -4
+    event.should be_valid
+  end
+  
   it 'should format for API correctly' do
     golden = {
       :referrer => web_pages(:test_page).to_api_hash,

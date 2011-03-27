@@ -35,10 +35,10 @@ class Event < ActiveRecord::Base
       :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   # The browser window's X position on screen.
   validates :window_x, :presence => true,
-      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+      :numericality => { :only_integer => true }
   # The browser window's Y position on screen.
   validates :window_y, :presence => true,
-      :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+      :numericality => { :only_integer => true }
 
   # The IP address of the incoming HTTP request.
   validates :ip, :length => 1..64, :presence => true
