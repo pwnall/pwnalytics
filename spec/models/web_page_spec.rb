@@ -52,14 +52,34 @@ describe WebPage do
       new_page.url.should == page.url
     end
     
-    it 'should return null page for empty URLs' do
+    it 'should normalize URLs' do
+      WebPage.for(null_page.web_property_uid, nil).should == null_page
       WebPage.for(null_page.web_property_uid, '').should == null_page
     end
-    it 'should return null page for nil URLs' do
-      WebPage.for(null_page.web_property_uid, nil).should == null_page
-    end
+    
     it 'should return null page for URLs set to null' do
       WebPage.for(null_page.web_property_uid, 'null').should == null_page
+    end
+  end
+  
+  describe 'normalize_url' do
+    it 'should return "null" for nil URLs' do
+      WebPage.normalize_url(nil).should == 'null'
+    end
+    it 'should return "null" for empty URLs' do
+      WebPage.normalize_url('').should == 'null'
+    end
+    it 'should return simple URLs as they are' do
+      WebPage.normalize_url('http://www.google.com/').should ==
+          'http://www.google.com/'
+    end
+    it 'should strip query from URLs' do
+      WebPage.normalize_url('http://www.google.com/search?q=something').
+              should == 'http://www.google.com/search?'
+    end
+    it 'should truncate overly long URLs' do
+      long_url = 'something' * 1000
+      WebPage.normalize_url(long_url).length.should == 148
     end
   end
   

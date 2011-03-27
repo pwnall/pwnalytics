@@ -16,7 +16,7 @@ class WebPage < ActiveRecord::Base
 
   # Creates or retrieves a WebPage matching the arguments.
   def self.for(property_uid, url)
-    url = 'null' if url.blank?
+    url = normalize_url url
     page = WebPage.where(:web_property_uid => property_uid, :url => url).first
     return page if page
     
@@ -29,6 +29,16 @@ class WebPage < ActiveRecord::Base
       # Concurrency yum yum.
       WebPage.where(:web_property_uid => property_uid, :url => url).first
     end
+  end
+  
+  # Chops up a URL to make it suitable for the Pwnalytics database.
+  def self.normalize_url(url)
+    return 'null' if url.blank?
+    if query_index = url.index(??)
+      url = url[0, query_index + 1]
+    end
+    url = url[0, 148] if url.length > 148
+    url
   end
   
   # Validates the correctness of the the de-normalized web_property_uid.
