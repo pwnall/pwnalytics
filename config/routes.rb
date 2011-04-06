@@ -4,8 +4,8 @@ Pwnalytics::Application.routes.draw do
     resources :web_pages, :only => [:index, :show]
     resources :web_visitors, :only => [:index, :show]
   end
-  get 'p.gif' => 'events_fast#create', :format => 'gif', :as => :create_event
-  get 'p.js' => 'events_fast#new', :format => 'js', :as => :new_event
+  get 'p.gif' => 'event_post#create', :format => 'gif', :as => :create_event
+  get 'p.js' => 'event_js#new', :format => 'js', :as => :new_event
   config_vars
 
   # The priority is based upon order of creation:

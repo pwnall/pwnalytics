@@ -33,4 +33,5 @@ group :development, :test do
   gem 'rspec-rails', '>= 2.5.0'
   gem 'ruby-debug'
   gem 'ruby-prof'
+  gem 'webrat'
 end

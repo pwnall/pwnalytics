@@ -1,15 +1,19 @@
 require "spec_helper"
 
-describe EventsFastController do
+describe EventPostController do
+  describe "routing" do
+    it "recognizes and generates #create" do
+      { :get => "/p.gif" }.should route_to(:controller => "event_post",
+          :action => "create", :format => "gif")
+    end
+  end
+end
+
+describe EventJsController do
   describe "routing" do
     it "recognizes and generates #new" do
-      { :get => "/p.js" }.should route_to(:controller => "events_fast",
+      { :get => "/p.js" }.should route_to(:controller => "event_js",
                                           :action => "new", :format => "js")
-    end
-
-    it "recognizes and generates #create" do
-      { :get => "/p.gif" }.should route_to(:controller => "events_fast",
-          :action => "create", :format => "gif")
     end
   end
 end

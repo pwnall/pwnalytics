@@ -11,18 +11,18 @@ describe "Pwnalytics events posting" do
     
     it "contains the correct event post backend URL" do
       get '/p.js'
-      response.body.should include(create_event_path)
+      response.body.should include('http://www.example.com/p.gif')
     end
   end
 
   describe "GET /p.gif" do
     describe "with valid params" do
       it "assigns a newly created event as @event" do
-        Event.stub(:create_from_params).with({'controller' => 'events_fast',
-            'action' => 'create', 'these' => 'params'}, 'Rails Testing',
-            '127.0.0.1') { mock_event(:save => true) }
-        request.user_agent = 'Rails Testing'
-        get '/p.gif', {'these' => 'params'}
+        Event.stub(:create_from_params).with({'controller' => 'event_post',
+            'action' => 'create', 'these' => 'params', 'format' => 'gif'},
+            'Rails Testing', '127.0.0.1') { mock_event(:save => true) }
+        get '/p.gif', {'these' => 'params'},
+                      {'HTTP_USER_AGENT' => 'Rails Testing'}
         assigns(:event).should be(mock_event)
       end
 
@@ -35,10 +35,11 @@ describe "Pwnalytics events posting" do
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved event as @event" do
-        Event.stub(:create_from_params).with({'controller' => 'events_fast',
-            'action' => 'create', 'these' => 'params'}, 'Rails Testing',
-            '127.0.0.1') { mock_event(:save => false) }
-        get '/p.gif', {'these' => 'params'}
+        Event.stub(:create_from_params).with({'controller' => 'event_post',
+            'action' => 'create', 'these' => 'params', 'format' => 'gif'},
+            'Rails Testing', '127.0.0.1') { mock_event(:save => false) }
+        get '/p.gif', {'these' => 'params'},
+                      {'HTTP_USER_AGENT' => 'Rails Testing'}
         assigns(:event).should be(mock_event)
       end
 
