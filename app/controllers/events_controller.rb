@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  config_vars_auth :except => [:new, :create]
+  config_vars_auth
 
   # GET /web_properties/1/events
   # GET /web_properties/1/events.json
@@ -22,18 +22,5 @@ class EventsController < ApplicationController
       format.html # show.html.erb
       format.json { render :json => @event.to_api_hash }
     end
-  end
-
-  # GET /events/new
-  def new
-    render :text => PwnalyticsJS::PwnalyticsJS.main_js(create_event_url)
-  end
-
-  # POST /events
-  # POST /events.json
-  def create
-    @event = Event.create_from_params params, request.user_agent,
-                                      request.remote_ip
-    render :text => PwnalyticsJS::PwnalyticsJS.gif_contents
   end
 end
