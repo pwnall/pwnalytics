@@ -56,12 +56,28 @@
   </ul>
   
   <p>
-    Last, Pwnalytics keeps track of the events that have been posted, but have
-    not yet been recorded on the server. This may happen due to a slow network
+    Pwnalytics keeps track of the events that have been posted, but have not yet
+    been recorded on the server. This may happen due to a slow network
     connection, a server failure, or because there is too much load on the
     Pwnalytics server. The number of pending events is available as
     <code>_paq.length</code>
   </p>
+  
+  <p>
+    In user studies, it is helpful to simulate different users without resetting
+    the browser state. With Pwnalytics, you can achieve that by calling 
+    <code>_paq.reset()</code>, but that doesn't work asynchronously. You have to
+    ensure that Pwnalytics has been loaded.
+  </p>
+  <ul>
+    <li>
+      <code>_paq.push(function () { _paq.reset(); })</code> uses the delayed
+      execution feature in Pwnalytics. The function given to
+      <code>_paq.push()</code> will only be called after Pwnalytics is loaded,
+      so the code inside it can use Pwnalytics features that can't be
+      implemented in an asynchronous manner otherwise.
+    </li>
+  </ul>
 </section>
 
 <%= link_to 'Edit', edit_web_property_path(@web_property) %> |
