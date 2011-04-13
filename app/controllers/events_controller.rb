@@ -5,7 +5,10 @@ class EventsController < ApplicationController
   # GET /web_properties/1/events.json
   def index
     @web_property = WebProperty.find params[:web_property_id]
-    @events = @web_property.events(:include => [:page, :referrer, :web_visitor])
+    @events = @web_property.events.includes(:page, :referrer, :web_visitor)
+    
+    # Filtering.
+    @events = @events.where(:name => params[:names]) if params[:names]
 
     respond_to do |format|
       format.html # index.html.erb

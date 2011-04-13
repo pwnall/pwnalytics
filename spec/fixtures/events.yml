@@ -12,4 +12,20 @@ test_load:
   ip: "1.2.3.4"
   browser_ua: "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Ubuntu/10.10 Chromium/9.0.597.107 Chrome/9.0.597.107 Safari/534.13"
   name: page
-  data_json: <%= {'pixie' => 'dust' }.to_json.inspect %>
+  data_json: <%= { 'pixie' => 'dust' }.to_json.inspect %>
+
+test_unload:
+  web_visitor: pwnall
+  web_property: js_test
+  page: test_page_alias
+  referrer: test_page
+  browser_time: 1298799635048
+  screen_width: 1680
+  screen_height: 1050
+  color_depth: 24
+  document_width: 1680
+  document_height: 931
+  ip: "1.2.3.4"
+  browser_ua: "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Ubuntu/10.10 Chromium/9.0.597.107 Chrome/9.0.597.107 Safari/534.13"
+  name: unload
+  data_json: <%= { 'pixie' => 'dust' }.to_json.inspect %>
