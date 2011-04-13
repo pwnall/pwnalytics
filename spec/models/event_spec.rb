@@ -11,7 +11,7 @@ describe Event do
               :browser_time => 1298789991386,
               :screen_info => '1ao.t6.o.t4.ey.az.e',
               :browser_ua => events(:test_load).browser_ua, :ip => '2.3.4.5',
-              :data => {'__' => 'whatever', 'pixie' => 'dust'}
+              :name => 'page', :data => {'pixie' => 'dust'}
   end
   
   it 'should validate healthy model' do
@@ -52,6 +52,11 @@ describe Event do
     event.should_not be_valid
   end
   
+  it 'should require an event name' do
+    event.name = nil
+    event.should_not be_valid
+  end
+
   it 'should require event data' do
     event.data = nil
     event.should_not be_valid
@@ -89,7 +94,7 @@ describe Event do
       :referrer => web_pages(:test_page).to_api_hash,
       :page => web_pages(:test_page_alias).to_api_hash,
       :visitor => web_visitors(:pwnall).to_api_hash,
-      :data => { '__' => 'page'},
+      :data => { 'pixie' => 'dust'}, :name => 'page',
       :pixels => {
         :screen => { :width=>1680, :height=>1050 },
         :window => { :x => 0, :y => 0 },
@@ -112,6 +117,7 @@ describe Event do
         '__pid' => js_test.uid, '__uid' => pwnall.uid,
         '__url' => test_page.url, '__ref' => null_page.url,
         '__time' => event.browser_time, '__px' => '1ao.t6.o.t4.ey.az.e',
+        '__' => 'page', 'pixie' => 'dust',
         'controller' => 'event', 'action' => 'create', 'format' => 'gif'
       }.merge event.data
     end
@@ -134,11 +140,22 @@ describe Event do
     it 'should set referrer' do
       @web_event.referrer.should == null_page
     end
+    it 'should set name' do
+      @web_event.name.should == event.name
+    end
+    it 'should default name to null' do
+      params.delete '__'
+      Event.create_from_params(params, 'Rails Testing', '0.0.0.0').name.
+          should == 'null'
+    end
     it 'should remove metadata from event properties' do
       @web_event.data.should == event.data
     end
     it 'should set ip' do
       @web_event.ip.should == '0.0.0.0'
+    end
+    it 'should set user agent' do
+      @web_event.browser_ua.should == 'Rails Testing'
     end
     it 'should set user agent' do
       @web_event.browser_ua.should == 'Rails Testing'

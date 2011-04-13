@@ -13,5 +13,6 @@ describe "events/index.html.erb" do
     assert_select "tr>td", :text => events(:test_load).page.url
     assert_select "tr>td", :text => events(:test_load).referrer.url
     assert_select "tr>td", :text => events(:test_load).browser_time.to_s
+    assert_select "tr>td", :text => events(:test_load).name.to_s
   end
 end

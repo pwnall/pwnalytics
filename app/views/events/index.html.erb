@@ -8,6 +8,7 @@
     <th>Visitor</th>
     <th>Page</th>
     <th>Referrer</th>
+    <th>Name</th>
     <th>Browser time</th>
     <th>Data</th>
     <th></th>
@@ -29,6 +30,7 @@
       <%= link_to event.referrer.url, web_property_web_page_path(
               event.web_property, event.referrer) %>
     </td>
+    <td><%= event.name %></td>
     <td><%= event.browser_time %></td>
     <td><%= event.data.to_json %></td>
     <td>

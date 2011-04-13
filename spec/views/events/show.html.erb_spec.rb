@@ -22,5 +22,6 @@ describe "events/show.html.erb" do
     rendered.should include(@event.browser_time.to_s)
     rendered.should include(@event.window_x.to_s)
     rendered.should include(@event.window_y.to_s)
+    rendered.should include(@event.name)
   end
 end

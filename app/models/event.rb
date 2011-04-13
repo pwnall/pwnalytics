@@ -44,6 +44,9 @@ class Event < ActiveRecord::Base
   validates :ip, :length => 1..64, :presence => true
   # The browser's User-Agent header.
   validates :browser_ua, :length => 1..256, :presence => true
+  
+  # Event name.
+  validates :name, :length => 1..32, :presence => true
 
   # All the event's properties.
   validates :data_json, :presence => true
@@ -59,22 +62,23 @@ class Event < ActiveRecord::Base
   
   # Creates an event based on the data in a Web request.
   def self.create_from_params(request_params, user_agent, ip)
-    params = request_params.clone
+    data = request_params.dup
     
-    property_uid = params.delete('__pid')
-    visitor = WebVisitor.for property_uid, params.delete('__uid')
+    property_uid = data.delete('__pid')
+    visitor = WebVisitor.for property_uid, data.delete('__uid')
     return nil unless visitor
-    page = WebPage.for property_uid, params.delete('__url')
-    referrer = WebPage.for property_uid, params.delete('__ref')
-    browser_time = params.delete '__time'
-    screen_info = params.delete '__px'
+    page = WebPage.for property_uid, data.delete('__url')
+    referrer = WebPage.for property_uid, data.delete('__ref')
+    browser_time = data.delete '__time'
+    screen_info = data.delete '__px'
+    name = data.delete('__') || 'null'
     ['format', 'controller', 'action'].each do |rails_header|
-      params.delete rails_header
+      data.delete rails_header
     end
     Event.create :web_property_id => visitor.web_property_id,
                  :web_visitor => visitor, :browser_time => browser_time,
-                 :page => page, :referrer => referrer, :data => params,
-                 :screen_info => screen_info,
+                 :page => page, :referrer => referrer, :name => name[0, 32],
+                 :data => data, :screen_info => screen_info,
                  :browser_ua => user_agent[0, 256], :ip => ip[0, 64]
   end
   
@@ -108,7 +112,7 @@ class Event < ActiveRecord::Base
       :browser => {
         :time => browser_time, :ua => browser_ua,
       },
-      :ip => ip, :data => data,
+      :ip => ip, :name => name, :data => data,
       :page => page.to_api_hash, :referrer => referrer.to_api_hash,
       :visitor => web_visitor.to_api_hash
     }

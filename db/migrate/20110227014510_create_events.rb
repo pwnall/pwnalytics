@@ -13,6 +13,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :document_height, :null => false
       t.integer :window_x, :null => false
       t.integer :window_y, :null => false
+      t.string :name, :length => 32, :null => false
       t.string :ip, :length => 64, :null => false
       t.string :browser_ua, :length => 256, :null => false
       t.text :data_json, :limit => 4.kilobytes, :null => false
@@ -22,6 +23,8 @@ class CreateEvents < ActiveRecord::Migration
                                                      :unique => false
     add_index :events, [:web_property_id, :page_id, :browser_time],
                        :null => false, :unique => false
+    add_index :events, [:web_property_id, :name], :null => false,
+                                                  :unique => false
   end
 
   def self.down

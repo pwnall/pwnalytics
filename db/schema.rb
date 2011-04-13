@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110227091841) do
+ActiveRecord::Schema.define(:version => 20110413063911) do
 
   create_table "config_vars", :force => true do |t|
     t.string "name",  :null => false
@@ -36,9 +36,11 @@ ActiveRecord::Schema.define(:version => 20110227091841) do
     t.string   "browser_ua",                   :null => false
     t.text     "data_json",                    :null => false
     t.datetime "created_at"
+    t.string   "name",                         :null => false
   end
 
   add_index "events", ["visitor_id", "browser_time"], :name => "index_events_on_visitor_id_and_browser_time"
+  add_index "events", ["web_property_id", "name"], :name => "index_events_on_web_property_id_and_name"
   add_index "events", ["web_property_id", "page_id", "browser_time"], :name => "index_events_on_web_property_id_and_page_id_and_browser_time"
 
   create_table "web_pages", :force => true do |t|
