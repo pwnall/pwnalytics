@@ -105,7 +105,7 @@ class Event < ActiveRecord::Base
     {
       :id => id,
       :pixels => {
-        :document => { :height => document_height, :width => :document_width },
+        :document => { :height => document_height, :width => document_width },
         :screen => { :width => screen_width, :height => screen_height },
         :window => { :x => window_x, :y => window_y }, 
       },

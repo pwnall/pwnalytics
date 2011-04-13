@@ -98,7 +98,7 @@ describe Event do
       :pixels => {
         :screen => { :width=>1680, :height=>1050 },
         :window => { :x => 0, :y => 0 },
-        :document => { :width => :document_width, :height => 931 }
+        :document => { :width => 1680, :height => 931 }
       },
       :ip => '1.2.3.4',
       :browser => {
