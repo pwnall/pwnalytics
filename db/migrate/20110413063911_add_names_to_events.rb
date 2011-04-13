@@ -1,6 +1,6 @@
 class AddNamesToEvents < ActiveRecord::Migration
   def self.up
-    # add_column :events, :name, :string, :null => true
+    add_column :events, :name, :string, :null => true
     
     Event.find_each do |event|
       event.name = event.data['__'] || 'null'
