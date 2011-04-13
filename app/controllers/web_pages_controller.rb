@@ -1,8 +1,8 @@
 class WebPagesController < ApplicationController
-  # GET /web_properties/1/web_pages
-  # GET /web_properties/1/web_pages.json
+  # GET /web_properties/AA123456/web_pages
+  # GET /web_properties/AA123456/web_pages.json
   def index
-    web_property = WebProperty.find params[:web_property_id]
+    web_property = WebProperty.from_param params[:web_property_id]
     @web_pages = web_property.web_pages
 
     respond_to do |format|
@@ -11,8 +11,8 @@ class WebPagesController < ApplicationController
     end
   end
 
-  # GET /web_properties/1/web_pages/1
-  # GET /web_properties/1/web_pages/1.json
+  # GET /web_properties/AA123456/web_pages/1
+  # GET /web_properties/AA123456/web_pages/1.json
   def show
     @web_page = WebPage.find(params[:id])
 

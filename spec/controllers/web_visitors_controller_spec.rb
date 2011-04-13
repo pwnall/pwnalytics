@@ -20,7 +20,7 @@ describe WebVisitorsController do
 
     describe "GET index" do
       it "assigns all web_visitors as @web_visitors" do
-        WebProperty.stub(:find).with("42") { mock_property }        
+        WebProperty.stub(:from_param).with("42") { mock_property }
         mock_property.stub(:web_visitors)  { [mock_web_visitor] }
         get :index, :web_property_id => "42"
         assigns(:web_visitors).should eq([mock_web_visitor])
@@ -39,7 +39,7 @@ describe WebVisitorsController do
     
     describe "GET index via JSON" do
       it "renders pages via to_api_hash" do
-        WebProperty.stub(:find).with('42') { mock_property }
+        WebProperty.stub(:from_param).with('42') { mock_property }
         mock_property.stub(:web_visitors) { [mock_web_visitor] }
         mock_web_visitor.stub(:to_api_hash) { { 'api' => 'hash' } }
         get :index, :web_property_id => '42', :format => 'json'

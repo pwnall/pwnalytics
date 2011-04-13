@@ -26,13 +26,13 @@ describe WebPropertiesController do
     describe "GET show" do
       let(:stubbed_web_property) { mock_model(WebProperty, {:uid => 'AX123456'}) }
       it "assigns the requested web_property as @web_property" do
-        WebProperty.stub(:find).with("37") { stubbed_web_property }
+        WebProperty.stub(:from_param).with("37") { stubbed_web_property }
         get :show, :id => "37"
         assigns(:web_property).should be(stubbed_web_property)
       end
       
       it "assigns the tracking snippet as @html_snippet" do
-        WebProperty.stub(:find).with("37") { stubbed_web_property }
+        WebProperty.stub(:from_param).with("37") { stubbed_web_property }
         get :show, :id => "37"
         assigns(:html_snippet).should include('AX123456')
         assigns(:html_snippet).should include('_paq.push')
@@ -50,7 +50,7 @@ describe WebPropertiesController do
   
     describe "GET edit" do
       it "assigns the requested web_property as @web_property" do
-        WebProperty.stub(:find).with("37") { mock_web_property }
+        WebProperty.stub(:from_param).with("37") { mock_web_property }
         get :edit, :id => "37"
         assigns(:web_property).should be(mock_web_property)
       end
@@ -89,19 +89,19 @@ describe WebPropertiesController do
     describe "PUT update" do
       describe "with valid params" do
         it "updates the requested web_property" do
-          WebProperty.stub(:find).with("37") { mock_web_property }
+          WebProperty.stub(:from_param).with("37") { mock_web_property }
           mock_web_property.should_receive(:update_attributes).with({'these' => 'params'})
           put :update, :id => "37", :web_property => {'these' => 'params'}
         end
   
         it "assigns the requested web_property as @web_property" do
-          WebProperty.stub(:find) { mock_web_property(:update_attributes => true) }
+          WebProperty.stub(:from_param) { mock_web_property(:update_attributes => true) }
           put :update, :id => "1"
           assigns(:web_property).should be(mock_web_property)
         end
   
         it "redirects to the web_property" do
-          WebProperty.stub(:find) { mock_web_property(:update_attributes => true) }
+          WebProperty.stub(:from_param) { mock_web_property(:update_attributes => true) }
           put :update, :id => "1"
           response.should redirect_to(web_property_url(mock_web_property))
         end
@@ -109,13 +109,13 @@ describe WebPropertiesController do
   
       describe "with invalid params" do
         it "assigns the web_property as @web_property" do
-          WebProperty.stub(:find) { mock_web_property(:update_attributes => false) }
+          WebProperty.stub(:from_param) { mock_web_property(:update_attributes => false) }
           put :update, :id => "1"
           assigns(:web_property).should be(mock_web_property)
         end
   
         it "re-renders the 'edit' template" do
-          WebProperty.stub(:find) { mock_web_property(:update_attributes => false) }
+          WebProperty.stub(:from_param) { mock_web_property(:update_attributes => false) }
           put :update, :id => "1"
           response.should render_template("edit")
         end
@@ -124,13 +124,13 @@ describe WebPropertiesController do
   
     describe "DELETE destroy" do
       it "destroys the requested web_property" do
-        WebProperty.stub(:find).with("37") { mock_web_property }
+        WebProperty.stub(:from_param).with("37") { mock_web_property }
         mock_web_property.should_receive(:destroy)
         delete :destroy, :id => "37"
       end
   
       it "redirects to the web_properties list" do
-        WebProperty.stub(:find) { mock_web_property }
+        WebProperty.stub(:from_param) { mock_web_property }
         delete :destroy, :id => "1"
         response.should redirect_to(web_properties_url)
       end

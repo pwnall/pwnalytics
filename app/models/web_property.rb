@@ -20,6 +20,23 @@ class WebProperty < ActiveRecord::Base
   end
   before_validation :generate_uid
   
+  # Use UIDs instead of ActiveRecord IDs in links.
+  def to_param
+    uid
+  end
+  
+  # Finder for to_param.
+  def self.from_param(uid)
+    WebProperty.where(:uid => uid).first
+  end
+  
+  # Hide ActiveRecord IDs in API responses.
+  def as_json(options = {})
+    super((options || {}).merge(:except => :id))
+  end
+  
+  self.include_root_in_json = false
+  
   # Computes a UID that should be unique by virtue of randomness.
   def self.random_uid
     OpenSSL::Random.random_bytes(4).unpack('H*').first.upcase

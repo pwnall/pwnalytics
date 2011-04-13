@@ -3,6 +3,7 @@ require 'spec_helper'
 describe WebProperty do
   fixtures :web_properties
   
+  let(:db_property) { web_properties(:js_test) }
   let(:property) do
     WebProperty.new :name => 'My Awesome Site'
   end
@@ -40,6 +41,42 @@ describe WebProperty do
   it 'should not accept duplicate UIDs' do
     property.uid = web_properties(:js_test).uid
     property.should_not be_valid
+  end
+  
+  describe 'json serialization' do
+    let(:json) { ActiveSupport::JSON.decode(db_property.to_json) }
+    
+    it 'should have the UID' do
+      json['uid'].should == db_property.uid
+    end
+    
+    it 'should not have the ActiveRecord ID' do
+      json['id'].should be_nil
+    end
+  end
+  
+  describe 'to_param' do
+    let(:param) { db_property.to_param }
+    
+    it 'should match UID' do
+      param.should == db_property.uid
+    end
+  end
+  
+  describe 'from_param' do
+    let(:param) { db_property.to_param }
+    
+    it 'should be the inverse of to_param' do
+      WebProperty.from_param(param).should == db_property
+    end
+    
+    it 'should return nil for an invalid UID' do
+      WebProperty.from_param('xoxo').should be_nil
+    end
+    
+    it 'should return when given nil' do
+      WebProperty.from_param(nil).should be_nil
+    end
   end
   
   describe 'random_uid' do

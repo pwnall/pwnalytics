@@ -20,7 +20,7 @@ describe WebPagesController do
     
     describe "GET index" do
       it "assigns all web_pages as @web_pages" do
-        WebProperty.stub(:find).with("42") { mock_property }
+        WebProperty.stub(:from_param).with("42") { mock_property }
         mock_property.stub(:web_pages) { [mock_web_page] }
         get :index, :web_property_id => "42"
         assigns(:web_pages).should eq([mock_web_page])
@@ -39,7 +39,7 @@ describe WebPagesController do
     
     describe "GET index via JSON" do
       it "renders pages via to_api_hash" do
-        WebProperty.stub(:find).with('42') { mock_property }
+        WebProperty.stub(:from_param).with('42') { mock_property }
         mock_property.stub(:web_pages) { [mock_web_page] }
         mock_web_page.stub(:to_api_hash) { { 'api' => 'hash' } }
         get :index, :web_property_id => '42', :format => 'json'

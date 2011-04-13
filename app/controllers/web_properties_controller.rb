@@ -13,7 +13,7 @@ class WebPropertiesController < ApplicationController
   # GET /web_properties/1
   # GET /web_properties/1.json
   def show
-    @web_property = WebProperty.find(params[:id])
+    @web_property = WebProperty.from_param params[:id]
     js_snippet = PwnalyticsJS::PwnalyticsJS.insertion_js new_event_url,
                                                          @web_property.uid
     @html_snippet = %Q|<script type="text/javascript">\n  #{js_snippet}\n</script>|
@@ -37,7 +37,7 @@ class WebPropertiesController < ApplicationController
 
   # GET /web_properties/1/edit
   def edit
-    @web_property = WebProperty.find(params[:id])
+    @web_property = WebProperty.from_param params[:id]
   end
 
   # POST /web_properties
@@ -59,7 +59,7 @@ class WebPropertiesController < ApplicationController
   # PUT /web_properties/1
   # PUT /web_properties/1.json
   def update
-    @web_property = WebProperty.find(params[:id])
+    @web_property = WebProperty.from_param params[:id]
 
     respond_to do |format|
       if @web_property.update_attributes(params[:web_property])
@@ -75,7 +75,7 @@ class WebPropertiesController < ApplicationController
   # DELETE /web_properties/1
   # DELETE /web_properties/1.json
   def destroy
-    @web_property = WebProperty.find(params[:id])
+    @web_property = WebProperty.from_param params[:id]
     @web_property.destroy
 
     respond_to do |format|

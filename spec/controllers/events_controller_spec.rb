@@ -14,6 +14,8 @@ describe EventsController do
   def mock_property(stubs={})
     @mock_property ||= mock_model(WebProperty, stubs).as_null_object
   end
+  
+  let(:db_property) { web_properties(:js_test) }
 
 
   describe "with http basic" do
@@ -23,23 +25,21 @@ describe EventsController do
     
     describe "GET index" do
       it "assigns all events as @events" do
-        get :index, :web_property_id => web_properties(:js_test).to_param
+        get :index, :web_property_id => db_property.to_param
         assigns(:events).should include(events(:test_load))
       end
     end
 
     describe "GET index" do
       it "uses names param in events DB query" do
-        get :index, :web_property_id => web_properties(:js_test).to_param,
-                    :names => [:page]
+        get :index, :web_property_id => db_property.to_param, :names => [:page]
         assigns(:events).should eq([events(:test_load)])
 
-        get :index, :web_property_id => web_properties(:js_test).to_param,
+        get :index, :web_property_id => db_property.to_param,
                     :names => [:page, :unload]
         assigns(:events).should eq([events(:test_load), events(:test_unload)])
 
-        get :index, :web_property_id => web_properties(:js_test).to_param,
-                    :names => []
+        get :index, :web_property_id => db_property.to_param, :names => []
         assigns(:events).should be_empty
       end
     end
@@ -56,7 +56,7 @@ describe EventsController do
     
     describe "GET index via JSON" do
       it "renders events via to_api_hash" do
-        WebProperty.stub(:find).with('42') { mock_property }
+        WebProperty.stub(:from_param).with('42') { mock_property }
         mock_result = [mock_event]
         mock_property.stub(:events) { mock_result }
         mock_result.stub(:where) { mock_result }
@@ -73,7 +73,8 @@ describe EventsController do
           mock_event(:web_property => mock_property)
         end
         mock_event.stub(:to_api_hash) { { 'api' => 'hash' } }
-        get :show, :id => '37', :web_property_id => '42', :format => 'json'
+        get :show, :id => '37', :web_property_id => '42',
+                   :format => 'json'
         ActiveSupport::JSON.decode(response.body).should == { 'api' => 'hash'}
       end
     end
@@ -81,14 +82,14 @@ describe EventsController do
 
   describe "GET index" do
     it "fails without authorization" do
-      get :show, :id => "37", :web_property_id => "42"
+      get :show, :id => '37', :web_property_id => 'AA123456'
       response.status.should == 401
     end
   end
 
   describe "GET show" do
     it "fails without authorization" do
-      get :show, :id => "37", :web_property_id => "42"
+      get :show, :id => '37', :web_property_id => 'AA123456'
       response.status.should == 401
     end
   end
