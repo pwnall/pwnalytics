@@ -53,6 +53,7 @@ describe EventsController do
         before do
           WebProperty.stub(:from_param).with('42') { mock_property }
           mock_property.stub(:events) { mock_result }
+          mock_result.stub(:order) { mock_result }
           mock_result.stub(:where) { mock_result }
           mock_result.stub(:limit) { mock_result }
           mock_result.stub(:includes) { mock_result }
@@ -76,6 +77,24 @@ describe EventsController do
           assigns(:events).should == [mock_event]
         end
       end
+      
+      describe "ordering" do
+        let(:mock_result) { [mock_event] }
+        before do
+          WebProperty.stub(:from_param).with('42') { mock_property }
+          mock_property.stub(:events) { mock_result }
+          mock_result.stub(:order) { mock_result }
+          mock_result.stub(:where) { mock_result }
+          mock_result.stub(:limit) { mock_result }
+          mock_result.stub(:includes) { mock_result }
+        end
+        
+        it "defaults to descending ordering by ID" do
+          mock_result.should_receive(:order).with('id DESC')
+          get :index, :web_property_id => '42'
+          assigns(:events).should == [mock_event]
+        end
+      end
     end
 
     describe "GET show" do
@@ -93,6 +112,7 @@ describe EventsController do
         WebProperty.stub(:from_param).with('42') { mock_property }
         mock_result = [mock_event]
         mock_property.stub(:events) { mock_result }
+        mock_result.stub(:order) { mock_result }
         mock_result.stub(:where) { mock_result }
         mock_result.stub(:limit) { mock_result }
         mock_result.stub(:includes) { mock_result }

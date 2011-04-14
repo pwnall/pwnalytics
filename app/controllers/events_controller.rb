@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   def index
     @web_property = WebProperty.from_param params[:web_property_id]
     @events = @web_property.events.includes(:page, :referrer, :web_visitor,
-                                            :web_property)
+                                            :web_property).order('id DESC')
     
     # Limiting.
     if params[:limit]
