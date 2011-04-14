@@ -19,7 +19,7 @@ test_unload:
   web_property: js_test
   page: test_page_alias
   referrer: test_page
-  browser_time: 1298799635048
+  browser_time: 1298799637048
   screen_width: 1680
   screen_height: 1050
   color_depth: 24
