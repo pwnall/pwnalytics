@@ -28,19 +28,53 @@ describe EventsController do
         get :index, :web_property_id => db_property.to_param
         assigns(:events).should include(events(:test_load))
       end
-    end
+      
+      describe "filtering" do
+        it "uses names param whem given" do
+          get :index, :web_property_id => db_property.to_param,
+                      :names => [:page]
+          assigns(:events).should eq([events(:test_load)])
+        end
+        
+        it "decodes names param as array" do
+          get :index, :web_property_id => db_property.to_param,
+                      :names => [:page, :unload]
+          assigns(:events).should eq([events(:test_load), events(:test_unload)])
+        end
+  
+        it "defaults to all events" do
+          get :index, :web_property_id => db_property.to_param, :names => []
+          assigns(:events).should be_empty
+        end
+      end
+      
+      describe "limiting" do
+        let(:mock_result) { [mock_event] }
+        before do
+          WebProperty.stub(:from_param).with('42') { mock_property }
+          mock_property.stub(:events) { mock_result }
+          mock_result.stub(:where) { mock_result }
+          mock_result.stub(:limit) { mock_result }
+          mock_result.stub(:includes) { mock_result }
+        end
+        
+        it "defaults to 200 records if no param is given" do
+          mock_result.should_receive(:limit).with(200)
+          get :index, :web_property_id => '42'
+          assigns(:events).should == [mock_event]
+        end
 
-    describe "GET index" do
-      it "uses names param in events DB query" do
-        get :index, :web_property_id => db_property.to_param, :names => [:page]
-        assigns(:events).should eq([events(:test_load)])
+        it "uses limit param if given" do
+          mock_result.should_receive(:limit).with(37)
+          get :index, :web_property_id => '42', :limit => 37
+          assigns(:events).should == [mock_event]
+        end
 
-        get :index, :web_property_id => db_property.to_param,
-                    :names => [:page, :unload]
-        assigns(:events).should eq([events(:test_load), events(:test_unload)])
-
-        get :index, :web_property_id => db_property.to_param, :names => []
-        assigns(:events).should be_empty
+        it "doesn't apply a limit for limit=no" do
+          mock_result.should_not_receive(:limit)
+          get :index, :web_property_id => '42', :limit => 'no'
+          assigns(:events).should == [mock_event]
+        end
       end
     end
 
@@ -60,6 +94,7 @@ describe EventsController do
         mock_result = [mock_event]
         mock_property.stub(:events) { mock_result }
         mock_result.stub(:where) { mock_result }
+        mock_result.stub(:limit) { mock_result }
         mock_result.stub(:includes) { mock_result }
         mock_event.stub(:to_api_hash) { { 'api' => 'hash' } }
         get :index, :web_property_id => '42', :format => 'json'

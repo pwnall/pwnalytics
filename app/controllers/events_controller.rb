@@ -5,8 +5,17 @@ class EventsController < ApplicationController
   # GET /web_properties/AA123456/events.json
   def index
     @web_property = WebProperty.from_param params[:web_property_id]
-    @events = @web_property.events.includes(:page, :referrer, :web_visitor)
+    @events = @web_property.events.includes(:page, :referrer, :web_visitor,
+                                            :web_property)
     
+    # Limiting.
+    if params[:limit]
+      limit = params[:limit] == 'no' ? nil : params[:limit].to_i
+    else
+      limit = 200
+    end
+    @events = @events.limit(limit) if limit
+
     # Filtering.
     @events = @events.where(:name => params[:names]) if params[:names]
 
