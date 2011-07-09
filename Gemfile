@@ -1,12 +1,23 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>= 3.0.6'
+gem 'rails', '>= 3.1.0.rc4'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
-gem 'mysql2'
+gem 'sqlite3', '>= 1.3.3'
+gem 'mysql2', '>= 0.3.6'
+
+# Asset template engines
+gem 'json'
+gem 'sass-rails', '>= 3.1.0.rc'
+gem 'coffee-script'
+gem 'uglifier'
+
+gem 'jquery-rails', '>= 1.0.0'
+
+gem 'execjs'
+gem 'therubyracer'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -23,15 +34,14 @@ gem 'mysql2'
 # gem 'nokogiri'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
-gem 'configvars_rails', '>= 0.4.2'
-gem 'jquery-rails', '>= 0.2.7'
+gem 'configvars_rails', '>= 0.5.0'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem 'rspec-rails', '>= 2.5.0'
-  gem 'ruby-debug'
-  gem 'ruby-prof'
+  gem 'rspec-rails', '>= 2.6.0'
+  gem 'ruby-debug', :platform => :mri
+  gem 'ruby-prof', :platform => :mri
   gem 'webrat'
 end

@@ -14,8 +14,9 @@ describe "web_properties/show.html.erb" do
     rendered.should match(/Name/)
   end
   
+  include ERB::Util
   it "renders tracking snippet" do
     render
-    assert_select "section pre", :text => /#{html_escape(@html_snippet)}/
+    assert_select "section pre", :text => /#{h(@html_snippet)}/
   end
 end
