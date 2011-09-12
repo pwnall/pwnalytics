@@ -24,5 +24,7 @@ Pwnalytics::Application.configure do
 
   # Do not compress assets
   config.assets.compress = false
-end
 
+  # Expands the lines which load the assets
+  config.assets.debug = true
+end

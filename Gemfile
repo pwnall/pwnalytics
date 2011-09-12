@@ -8,16 +8,17 @@ gem 'rails', '>= 3.1.0'
 gem 'sqlite3', '>= 1.3.3'
 gem 'mysql2', '>= 0.3.6'
 
-# Asset template engines
-gem 'json'
-gem 'sass-rails', '>= 3.1.0'
-gem 'coffee-script'
-gem 'uglifier'
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails', '>= 3.1.0'
+  gem 'coffee-rails', '>= 3.1.0'
+  gem 'uglifier'
+  
+  gem 'therubyracer'
+end
 
 gem 'jquery-rails', '>= 1.0.0'
-
-gem 'execjs'
-gem 'therubyracer'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -25,23 +26,19 @@ gem 'therubyracer'
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
+# To use debugger
 # gem 'ruby-debug'
-# gem 'ruby-debug19'
 
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-gem 'configvars_rails', '>= 0.5.0'
+gem 'configvars_rails', '>= 0.5.1'
+gem 'json', '>= 1.5.4'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'rspec-rails', '>= 2.6.0'
-  gem 'ruby-debug', :platform => :mri
+  gem 'ruby-debug', :platform => :mri_18
+  gem 'ruby-debug19', :platform => :mri_19
   gem 'ruby-prof', :platform => :mri
   gem 'webrat'
 end

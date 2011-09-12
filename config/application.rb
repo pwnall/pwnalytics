@@ -39,5 +39,8 @@ module Pwnalytics
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    
+    # Enable the AR identity map
+    config.active_record.identity_map = true
   end
 end
