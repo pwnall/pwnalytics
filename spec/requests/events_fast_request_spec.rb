@@ -17,13 +17,12 @@ describe "Pwnalytics events posting" do
 
   describe "GET /p.gif" do
     describe "with valid params" do
-      it "assigns a newly created event as @event" do
+      it "creates an event" do
         Event.stub(:create_from_params).with({'controller' => 'event_post',
             'action' => 'create', 'these' => 'params', 'format' => 'gif'},
             'Rails Testing', '127.0.0.1') { mock_event(:save => true) }
         get '/p.gif', {'these' => 'params'},
                       {'HTTP_USER_AGENT' => 'Rails Testing'}
-        assigns(:event).should be(mock_event)
       end
 
       it "renders the gif file" do
@@ -34,13 +33,12 @@ describe "Pwnalytics events posting" do
     end
 
     describe "with invalid params" do
-      it "assigns a newly created but unsaved event as @event" do
+      it "attempts to create an event" do
         Event.stub(:create_from_params).with({'controller' => 'event_post',
             'action' => 'create', 'these' => 'params', 'format' => 'gif'},
             'Rails Testing', '127.0.0.1') { mock_event(:save => false) }
         get '/p.gif', {'these' => 'params'},
                       {'HTTP_USER_AGENT' => 'Rails Testing'}
-        assigns(:event).should be(mock_event)
       end
 
       it "renders the gif file" do

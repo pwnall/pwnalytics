@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>= 3.1.0'
+gem 'rails', '>= 3.1.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -36,7 +36,7 @@ gem 'json', '>= 1.5.4'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem 'rspec-rails', '>= 2.6.0'
+  gem 'rspec-rails', '>= 2.6.1'
   gem 'ruby-debug', :platform => :mri_18
   gem 'ruby-debug19', :platform => :mri_19
   gem 'ruby-prof', :platform => :mri
