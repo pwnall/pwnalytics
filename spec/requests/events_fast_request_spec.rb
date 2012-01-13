@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe "Pwnalytics events posting" do
   def mock_event(stubs={})
     @mock_event ||= mock_model(Event, stubs).as_null_object
